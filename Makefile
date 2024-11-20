@@ -1,14 +1,21 @@
+.PHONY: all clean fclean re
+
+.SECONDARY:
+
 #the main fail name
 NAME = cub3D
 
 #wich compiler you prefer
 CC = cc
 
+#the header files path
+INC = -I./include -I$(libft_src) -I$(minilibx_src) -I$(gnl_src)
+
 #the flags that i need
-CFLAGS = -Wall -Wextra -Werror -I./include -I$(libft_src) -I$(minilibx_src) -g -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror $(INC) -g #-fsanitize=address -g3
 
 #creat source and object files
-CDIRS = src
+CDIRS = src libs/get_next_line
 ODIRS = bin
 SRC = $(foreach dir, $(CDIRS), $(wildcard $(dir)/*.c))
 OBJ = $(patsubst %.c, $(ODIRS)/%.o, $(notdir $(SRC)))
@@ -25,7 +32,7 @@ minilibx_src = ./libs/minilibx-linux/
 minilibx = $(minilibx_src)libmlx_Linux.a
 libft_src = ./libs/libft/
 libft = $(libft_src)libft.a
-
+gnl_src = ./libs/get_next_line/
 #creat cub3D file
 all:
 	$(call zaki,$(NAME),all)
@@ -40,7 +47,7 @@ fclean:
 
 #the rule to creat cub3D file
 $(NAME): $(OBJ) $(libft) $(minilibx)
-	$(CC) $(CFLAGS) $(OBJ) $(libft) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(libft) $(minilibx) -lX11 -lXext -o $(NAME)
 
 #how to creat the object files
 $(ODIRS)/%.o: %.c | $(ODIRS)
@@ -66,6 +73,7 @@ $(CL):
 
 #how to remove the object files and the main file
 $(FCL):
+	make -C $(minilibx_src) clean
 	make -C $(libft_src) fclean
 	rm -fr $(ODIRS) $(NAME)
 
@@ -103,7 +111,3 @@ fi; \
 rm -f $$LOGFILE; \
 '; 
 endef
-
-.PHONY: all clean fclean re
-
-.SECONDARY:
