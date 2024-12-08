@@ -1,0 +1,6 @@
+bin/
+.nfs*
+libs/minilibx-linux/
+libs/*/*.a
+cub3D
+*.a

@@ -12,7 +12,7 @@
 
 NAME = libft.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror -g 
 AR = ar rc
 RM = rm -f
 
@@ -72,6 +72,7 @@ $(NAME): $(OBJ)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 	$(AR) $(NAME) $@
+	mv $@ ../../bin
 
 bonus:	$(OBJB) $(NAME)
 	

@@ -1,18 +1,19 @@
+#Special Built-in Target
 .PHONY: all clean fclean re
-
 .SECONDARY:
 
 #the main fail name
 NAME = cub3D
 
-#wich compiler you prefer
+#wish compiler you prefer
 CC = cc
 
 #the header files path
 INC = -I./include -I$(libft_src) -I$(minilibx_src) -I$(gnl_src)
 
 #the flags that i need
-CFLAGS = -Wall -Wextra -Werror $(INC) -g #-fsanitize=address -g3
+CFLAGS = $(INC) -g #-fsanitize=address -g3
+#-Wall -Wextra -Werror 
 
 #creat source and object files
 CDIRS = src libs/get_next_line
@@ -33,21 +34,25 @@ minilibx = $(minilibx_src)libmlx_Linux.a
 libft_src = ./libs/libft/
 libft = $(libft_src)libft.a
 gnl_src = ./libs/get_next_line/
+
 #creat cub3D file
 all:
-	$(call zaki,$(NAME),all)
+	$(call fk_left,$(NAME),all)
 
 #clean all the object files
 clean:
-	$(call zaki,$(CL),clean)
+	$(call fk_left,$(CL),clean)
 
 #clean the object files and cub3D file
 fclean: 
-	$(call zaki,$(FCL),fclean)
+	$(call fk_left,$(FCL),fclean)
+
+#target to full clean and recompil
+re: fclean all
 
 #the rule to creat cub3D file
 $(NAME): $(OBJ) $(libft) $(minilibx)
-	$(CC) $(CFLAGS) $(OBJ) $(libft) $(minilibx) -lX11 -lXext -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(libft) $(minilibx) -lX11 -lXext -o $(NAME) -lm
 
 #how to creat the object files
 $(ODIRS)/%.o: %.c | $(ODIRS)
@@ -65,7 +70,7 @@ $(libft):
 $(minilibx):
 	make -C $(minilibx_src)
 
-#how to clear files
+#how to clear object files
 $(CL):
 	make -C $(minilibx_src) clean
 	make -C $(libft_src) clean
@@ -77,11 +82,8 @@ $(FCL):
 	make -C $(libft_src) fclean
 	rm -fr $(ODIRS) $(NAME)
 
-#target to fclean every think and re compiling from the begining
-re: fclean all
-
 #reusable scripe to made an animation when make a target
-define zaki
+define fk_left
 @if [ "$2" = "bonus" ] || [ "$2" = "all" ]; then \
 	if make -q $1; then \
 	    echo "$1 is up to date."; \
@@ -106,7 +108,11 @@ if [ $$STATUS -ne 0 ]; then \
     echo -e "\r$2 failed. See the output below:"; \
     cat $$LOGFILE; \
 else \
-    echo -e "\r$2 finished.    "; \
+    if [ "$2" = "bonus" ] || [ "$2" = "all" ]; then \
+       echo -e "\r$1 Created Successfully.   "; \
+    else \
+       echo -e "\r$2 finished.    "; \
+    fi; \
 fi; \
 rm -f $$LOGFILE; \
 '; 
