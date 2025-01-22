@@ -40,6 +40,8 @@ int main(int argc, char **argv)
     mlx.win = mlx_new_window(mlx.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "lo3ba");
     if(!mlx.win)
       return(clean_all(&mlx), 1);
+    mlx.img.mlx_image = mlx_new_image(mlx.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+    mlx.img.image_data = mlx_get_data_addr(mlx.img.mlx_image, &mlx.img.bits_per_pixel, &mlx.img.size_line, &mlx.img.endian);
     ray_casting(&mlx, &data, &player);
     mlx_hook(mlx.win, 2, 1, keys, &mlx);
     mlx_hook(mlx.win, 17, 0, red_cross, &mlx);

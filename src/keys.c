@@ -36,43 +36,25 @@ int redraw_map(t_mlx *mlx, t_data *data, float new_x, float new_y)
   return (0);
 }
 
-int move_player(t_mlx *mlx, float new_x, float new_y)
+int collision_detection(t_mlx *mlx, float *new_x, float *new_y)
 {
   t_data *data;
 
+  // printf("ana hna\n");
+  printf("n_x = %f , n_y = %f\n",*new_x, *new_y);
+  // printf("ana hna\n");
   data = mlx->data;
-  if (new_x < 0 || new_y < 0 || data->map[(int)new_y] == NULL \
-    || data->map[(int)new_y][(int)new_x] == '\0')
+  if (*new_x < 0 || *new_y < 0 || data->map[(int)*new_y] == NULL \
+    || data->map[(int)*new_y][(int)*new_x] == '\0')
     return 0;
-  if ((data->map[(int)new_y][(int)new_x] == '1' \
-    && data->map[(int)(new_y + 0.9)][(int)(new_x + 0.9)] == '1') \
-    || (data->map[(int)(new_y + 0.9)][(int)new_x] == '1' \
-    && data->map[(int)new_y][(int)(new_x + 0.9)] == '1'))
-    return(0);
- if (data->map[(int)new_y][(int)new_x] == '1' ||
-    data->map[(int)new_y][(int)(new_x + 0.9)] == '1' ||
-    data->map[(int)(new_y + 0.99)][(int)new_x] == '1' ||
-    data->map[(int)(new_y + 0.99)][(int)(new_x + 0.9)] == '1') {
-
-    if (cos(mlx->player->angle) > sin(mlx->player->angle)) {
-      if (sin(mlx->player->angle) > 0)
-        new_y += 0.05;
-      else
-        new_y -= 0.05;
-      new_x = mlx->player->x;
-    } else {
-      if (cos(mlx->player->angle) > 0)
-        new_x += 0.05;
-      else
-        new_x -= 0.05;
-      new_y = mlx->player->y; // Lock vertical movement
-    }
+  if(data->map[(int)*new_y][(int)*new_x] == '1')
+  {
+    if (data->map[(int)*new_y][(int)mlx->player->x] == '1')
+      *new_y = mlx->player->y;
+    if (data->map[(int)mlx->player->y][(int)*new_x] == '1')
+      *new_x = mlx->player->x;
   }
-  // if(data->map[(int)new_y][(int)new_x] == '1')
-  // else if(data->map[(int)(new_y + 0.9)][(int)(new_x + 0.9)])
-  // else if(data->map[(int)(new_y + 0.9)][(int)new_x] == '1')
-  // else if(data->map[(int)new_y][(int)(new_x + 0.9)] == '1')
-  return (redraw_map(mlx, data, new_x, new_y));
+  return (redraw_map(mlx, data, *new_x, *new_y));
 }
 
 // /*---w,s,d,a keys---*/
@@ -87,7 +69,7 @@ int key_mouvment(int keycode, t_mlx *mlx)
   
   dx = 0;
   dy = 0;
-  move_speed = 0.125;
+  move_speed = 0.1;
   get_direction_vector(mlx->player->angle, &dx, &dy);
   if (keycode == 'w')
   {
@@ -111,7 +93,9 @@ int key_mouvment(int keycode, t_mlx *mlx)
   }
   new_x = mlx->player->x + dx * move_speed;
   new_y = mlx->player->y + dy * move_speed;
-  return (move_player(mlx, new_x, new_y));
+  printf("nn_x = %f , nn_y = %f\n", new_x,new_y);
+  collision_detection(mlx, &new_x, &new_y);
+  return (0);
 }
 
 /*---arrows keys---*/

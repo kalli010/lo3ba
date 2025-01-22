@@ -38,10 +38,20 @@ typedef struct s_data
   t_pl *player;
 } t_data;
 
+typedef struct s_img
+{
+  void *mlx_image;
+  char *image_data;
+  int bits_per_pixel;
+  int size_line;
+  int endian;
+} t_img;
+
 typedef struct s_mlx
 {
   void *mlx;
   void *win;
+  t_img img;
   t_data *data;
   t_pl *player;
 } t_mlx;
@@ -54,7 +64,7 @@ int main(int argc, char **argv);
 /*keys.c*/
 int redraw_map(t_mlx *mlx, t_data *data, float new_x, float new_y);
 void get_direction_vector(float angle, float *dx, float *dy);
-int move_player(t_mlx *mlx, float new_x, float new_y);
+int collision_detection(t_mlx *mlx, float *new_x, float *new_y);
 int key_mouvment(int keycode, t_mlx *mlx);
 int key_rotation(int keycode, t_mlx *mlx);
 int keys(int keycode, t_mlx *mlx);
@@ -70,13 +80,12 @@ int check_file(char *file);
 int parse(char *file, t_data *data, t_pl *player);
 
 /*ray_csting.c*/
-int draw_wall_slice(t_mlx *mlx, float distance, int i, int wall_color);
+//int draw_wall_slice(t_mlx *mlx, float distance, int i, int wall_color);
 void draw_map(t_mlx *mlx, t_data *data);
 void draw_rays(t_mlx *mlx, t_data *data);
 int pixel_put(t_mlx *mlx, float x, float y, int color);
 int draw_minimap(t_mlx *mlx, t_data *data);
 int calculate_pixel_size(t_data *data);
 int ray_casting(t_mlx *mlx, t_data *data, t_pl *player);
-
 
 #endif

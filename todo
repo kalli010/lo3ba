@@ -1,5 +1,5 @@
 collision detection
 corner-based collisions
 mlx_new_image
-key mouvment (mlx_hook)
-
+key mouvment (mlx_hook_loop)
+langles mkherb9in

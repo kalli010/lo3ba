@@ -55,9 +55,9 @@ char *get_parameters(int fd, t_data *data)
 int check_player_position(t_data *data, int i, int j, int *p)
 {
   if (data->map[i][j] == 'N')
-    data->player->angle = M_PI / 2;
-  else if (data->map[i][j] == 'S')
     data->player->angle = 3 * M_PI / 2;
+  else if (data->map[i][j] == 'S')
+    data->player->angle = M_PI / 2;
   else if (data->map[i][j] == 'E')
     data->player->angle = 0;
   else if (data->map[i][j] == 'W')
@@ -129,10 +129,13 @@ int set_map(char *file, t_data *data, t_pl *player)
 int check_file(char *file)
 {
   int len;
+  int j;
 
   len = ft_strlen(file);
-  if(file[len - 1] != 'b' || file[len - 2] != 'u' || file[len - 3] != 'c' \
-    || file[len - 4] != '.' || file[len - 5] == '/')
+  j = ft_strlen(".cub");
+  if(len <= j || \
+    ft_strncmp(&file[len - j], ".cub", j) || \
+    ft_strchr(file, '/') == &file[ft_strlen(file) - 5])
   {
     printf("Error\nthe map file should be *.cub\n");
     return(1);
