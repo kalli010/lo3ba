@@ -22,5 +22,7 @@ char	*ft_strdup(const char *s)
 	if (dup == NULL)
 		return (NULL);
 	ft_memcpy(dup, s, len);
+  if (dup[ft_strlen(s) - 1] == '\n')
+    dup[ft_strlen(s) - 1] = '\0';
 	return (dup);
 }

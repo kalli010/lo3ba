@@ -63,8 +63,8 @@ int check_player_position(t_data *data, int i, int j, int *p)
   else if (data->map[i][j] == 'W')
     data->player->angle = M_PI;
   data->map[i][j] = 'P';
-  data->player->x = j;
-  data->player->y = i;
+  data->player->x = j + 0.5;
+  data->player->y = i + 0.5;
   (*p)++;
   return (0);
 }
@@ -143,7 +143,7 @@ int check_file(char *file)
   return(0);
 }
 
-/*lparsiiiing*/
+/*lparsing*/
 int parse(char *file, t_data *data, t_pl *player)
 {
   data->map = NULL;
