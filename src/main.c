@@ -25,7 +25,7 @@ int game_loop(t_mlx *mlx)
 {
   key_mouvment(mlx);
   key_rotation(mlx);
-  ray_casting(mlx, mlx->data, mlx->player);
+  ray_casting(mlx, mlx->data);
   mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.mlx_image, 0, 0);
   return (0);
 }
@@ -68,7 +68,7 @@ int main(int argc, char **argv)
     i = -1;
     while (++i < 6)
       data.key_pressed[i] = 0;
-    if (parse(argv[1], &data, &player))
+    if (parse(argv[1], &data))
       return(free_map(&data), 1);
     mlx.mlx = mlx_init();
     if(!mlx.mlx)

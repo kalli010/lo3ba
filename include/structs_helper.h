@@ -40,4 +40,47 @@ typedef struct s_draw_rays
   double ssssstep_x;
   double ssssstep_y;
 } t_draw_rays;
+
+typedef struct s_draw_minimap
+{
+  int x;
+  int y;
+  int start_x;
+  int start_y;
+  int end_x;
+  int end_y;
+} t_draw_minimap;
+
+typedef struct s_pixel_put
+{
+  int center_x;
+  int center_y;
+  double new_x;
+  double new_y;
+  double distance;
+  double i_x;
+  double i_y;
+} t_pixel_put;
+
+typedef struct s_key_mouvment
+{
+  double dx;
+  double dy;
+  double new_x;
+  double new_y;
+  double temp;
+} t_key_mouvment;
+
+typedef struct s_draw_wall_slice
+{
+  int top; 
+  int bottom;
+  double tex_y; 
+  double step;
+  int tex_x; 
+  int tex_y_int; 
+  int color;
+  int y;
+} t_draw_wall_slice;
+
 #endif

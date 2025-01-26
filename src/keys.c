@@ -7,43 +7,14 @@ void get_direction_vector(double angle, double *dx, double *dy)
   *dy = sin(angle);
 }
 
-/*---remplace the player position---*/
-int redraw_map(t_mlx *mlx, t_data *data, double new_x, double new_y)
-{
-  int x;
-  int y;
-
-  y = -1;
-
-  while(data->map[++y])
-  {
-    x = -1;
-    while(data->map[y][++x])
-    {
-      if(data->map[y][x] == 'P')
-      {
-        if(data->map[(int)new_y][(int)new_x] != '1');
-        {
-          data->map[y][x] = '0';
-          data->map[(int)new_y][(int)new_x] = 'P';
-          mlx->player->x = new_x;
-          mlx->player->y = new_y;
-          return (ray_casting(mlx, mlx->data, mlx->player), 0);
-        }
-      }
-    }
-  }
-  return (0);
-}
-
-int collision_detection(t_mlx *mlx, double *new_x, double *new_y)
+void collision_detection(t_mlx *mlx, double *new_x, double *new_y)
 {
   t_data *data;
 
   data = mlx->data;
   if (*new_x < 0 || *new_y < 0 || data->map[(int)*new_y] == NULL \
     || data->map[(int)*new_y][(int)*new_x] == '\0')
-    return 0;
+    return ;
   if(data->map[(int)*new_y][(int)*new_x] == '1')
   {
     if (data->map[(int)*new_y][(int)mlx->player->x] == '1')
@@ -58,51 +29,46 @@ int collision_detection(t_mlx *mlx, double *new_x, double *new_y)
       *new_x = mlx->player->x;
     }
   }
-  return (redraw_map(mlx, data, *new_x, *new_y));
+  mlx->player->x = *new_x;
+  mlx->player->y = *new_y;
+  ray_casting(mlx, mlx->data);
+}
+
+void change_x_y(t_mlx *mlx, t_key_mouvment *k)
+{
+  k->new_x = mlx->player->x + k->dx * MOVE_SPEED;
+  k->new_y = mlx->player->y + k->dy * MOVE_SPEED;
+  collision_detection(mlx, &k->new_x, &k->new_y);
 }
 
 // /*---w,s,d,a keys---*/
-int key_mouvment(t_mlx *mlx)
+void key_mouvment(t_mlx *mlx)
 {
-  double dx;
-  double dy;
-  double new_x;
-  double new_y;
-  double temp;
+  t_key_mouvment k;
 
-  dx = 0;
-  dy = 0;
-  get_direction_vector(mlx->player->angle, &dx, &dy);
+  get_direction_vector(mlx->player->angle, &k.dx, &k.dy);
   if (mlx->data->key_pressed[0])
-  {
-    new_x = mlx->player->x + dx * MOVE_SPEED;
-    new_y = mlx->player->y + dy * MOVE_SPEED;
-  }
+    change_x_y(mlx, &k);
   else if (mlx->data->key_pressed[1])
   {
-    dx = -dx;
-    dy = -dy;
-    new_x = mlx->player->x + dx * MOVE_SPEED;
-    new_y = mlx->player->y + dy * MOVE_SPEED;
+    k.dx = -k.dx;
+    k.dy = -k.dy;
+    change_x_y(mlx, &k);
   }
   else if (mlx->data->key_pressed[2])
   {
-    temp = dx;
-    dx = dy;
-    dy = -temp;
-    new_x = mlx->player->x + dx * MOVE_SPEED;
-    new_y = mlx->player->y + dy * MOVE_SPEED;
+    k.temp = k.dx;
+    k.dx = k.dy;
+    k.dy = -k.temp;
+    change_x_y(mlx, &k);
   }
   else if (mlx->data->key_pressed[3])
   {
-    temp = dx;
-    dx = -dy;
-    dy = temp;
-    new_x = mlx->player->x + dx * MOVE_SPEED;
-    new_y = mlx->player->y + dy * MOVE_SPEED;
+    k.temp = k.dx;
+    k.dx = -k.dy;
+    k.dy = k.temp;
+    change_x_y(mlx, &k);
   }
-  collision_detection(mlx, &new_x, &new_y);
-  return (0);
 }
 
 /*---arrows keys---*/
@@ -116,7 +82,7 @@ int key_rotation(t_mlx *mlx)
     mlx->player->angle += 2 * M_PI;
   if (mlx->player->angle >= 2 * M_PI)
     mlx->player->angle -= 2 * M_PI;
-  ray_casting(mlx, mlx->data, mlx->player);
+  ray_casting(mlx, mlx->data);
   return (0);
 }
 
@@ -160,11 +126,11 @@ int key_release(int keycode, t_data *data)
 }
 
 /*---red cross---*/
-int red_cross(int keycode, t_mlx *mlx)
+int red_cross(t_mlx *mlx)
 {
   // printf("%p\n",mlx);
   // printf("%p",mlx->mlx);
-  // clean_all(mlx);
+  clean_all(mlx);
   exit(0);
   return(0);
 }

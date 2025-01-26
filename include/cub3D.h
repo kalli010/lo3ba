@@ -75,32 +75,33 @@ void clean_all(t_mlx *mlx);
 int main(int argc, char **argv);
 
 /*keys.c*/
-int redraw_map(t_mlx *mlx, t_data *data, double new_x, double new_y);
+// int redraw_map(t_mlx *mlx, t_data *data, double new_x, double new_y);
 void get_direction_vector(double angle, double *dx, double *dy);
-int collision_detection(t_mlx *mlx, double *new_x, double *new_y);
-int key_mouvment(t_mlx *mlx);
+void collision_detection(t_mlx *mlx, double *new_x, double *new_y);
+void key_mouvment(t_mlx *mlx);
 int key_rotation(t_mlx *mlx);
 int key_release(int keycode, t_data *data);
 int key_press(int keycode, t_data *data);
-int red_cross(int keycode, t_mlx *mlx);
+int red_cross(t_mlx *mlx);
 
 /*parse_map.c*/
 int count_lines(int fd);
 char *get_parameters(int fd, t_data *data);
 int check_player_position(t_data *data, int i, int j, int *p);
-int ft_ft(int fd, t_data *data, t_pl *player);
-int set_map(char *file, t_data *data, t_pl *player);
+int ft_ft(int fd, t_data *data);
+int set_map(char *file, t_data *data);
 int check_file(char *file);
-int parse(char *file, t_data *data, t_pl *player);
+int parse(char *file, t_data *data);
 
 /*ray_csting.c*/
+void put_pixel_to_image(t_img img, int x, int y, int color);
 void draw_wall_slice(t_mlx *mlx, t_draw_map *d, t_img *texture, int column);
 int get_texture_pixel(t_img *texture, int x, int y);
 void draw_map(t_mlx *mlx, t_data *data);
 void draw_rays(t_mlx *mlx, t_data *data);
-int pixel_put(t_mlx *mlx, double x, double y, int color);
-int draw_minimap(t_mlx *mlx, t_data *data);
-int calculate_pixel_size(t_data *data);
-int ray_casting(t_mlx *mlx, t_data *data, t_pl *player);
+void pixel_put(t_mlx *mlx, double x, double y, int color);
+void draw_minimap(t_mlx *mlx, t_data *data);
+int calculate_pixel_size();
+void ray_casting(t_mlx *mlx, t_data *data);
 
 #endif

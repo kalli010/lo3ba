@@ -12,8 +12,7 @@ CC = cc
 INC = -I./include -I$(libft_src) -I$(minilibx_src) -I$(gnl_src)
 
 #the flags that i need
-CFLAGS = $(INC) -g #-fsanitize=address -g3
-#-Wall -Wextra -Werror 
+CFLAGS = $(INC) -g -Wall -Wextra -Werror -fsanitize=address -g3
 
 #creat source and object files
 CDIRS = src libs/get_next_line

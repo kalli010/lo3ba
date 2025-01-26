@@ -62,14 +62,14 @@ int check_player_position(t_data *data, int i, int j, int *p)
     data->player->angle = 0;
   else if (data->map[i][j] == 'W')
     data->player->angle = M_PI;
-  data->map[i][j] = 'P';
+  data->map[i][j] = '0';
   data->player->x = j + 0.5;
   data->player->y = i + 0.5;
   (*p)++;
   return (0);
 }
 
-int ft_ft(int fd, t_data *data, t_pl *player)
+int ft_ft(int fd, t_data *data)
 {
   int i;
   char *line;
@@ -103,7 +103,7 @@ int ft_ft(int fd, t_data *data, t_pl *player)
 }
 
 /*set data*/
-int set_map(char *file, t_data *data, t_pl *player)
+int set_map(char *file, t_data *data)
 {
   int fd1;
   int fd2;
@@ -117,7 +117,7 @@ int set_map(char *file, t_data *data, t_pl *player)
   }
   data->map_h = count_lines(fd1);
   data->map = (char **)malloc(sizeof(char *) * (data->map_h + 1));
-  if (ft_ft(fd2, data, player))
+  if (ft_ft(fd2, data))
     return (1);
   data->map[data->map_h] = NULL;
   close (fd1);
@@ -144,12 +144,12 @@ int check_file(char *file)
 }
 
 /*lparsing*/
-int parse(char *file, t_data *data, t_pl *player)
+int parse(char *file, t_data *data)
 {
   data->map = NULL;
   if (check_file(file))
     return (1);
-  if(set_map(file, data, player))
+  if(set_map(file, data))
     return(1);
   return(0);
 }
