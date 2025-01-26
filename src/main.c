@@ -1,96 +1,85 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zelkalai <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/26 11:11:25 by zelkalai          #+#    #+#             */
+/*   Updated: 2025/01/26 11:51:19 by zelkalai         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3D.h>
 
-void free_map(t_data *data)
+/*---draw everything---*/
+void	ray_casting(t_mlx *mlx, t_data *data)
 {
-  int i;
-
-  i = 0;
-  while(data->map && data->map[i])
-  {
-    free(data->map[i]);
-    i++;
-  }
-  free(data->map);
+	draw_map(mlx, mlx->data);
+	data->pixel_size = calculate_pixel_size();
+	draw_circle(mlx);
+	draw_minimap(mlx, data);
+	draw_rays(mlx, mlx->data);
 }
 
-void clean_all(t_mlx *mlx)
+int	game_loop(t_mlx *mlx)
 {
-  mlx_destroy_window(mlx->mlx, mlx->win);
-  mlx_destroy_display(mlx->mlx);
-  free_map(mlx->data);
-  free(mlx->mlx);
+	key_mouvment(mlx);
+	key_rotation(mlx);
+	ray_casting(mlx, mlx->data);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.mlx_image, 0, 0);
+	return (0);
 }
 
-int game_loop(t_mlx *mlx)
+int	init(t_mlx *mlx, t_data *data, char *argv, t_pl *player)
 {
-  key_mouvment(mlx);
-  key_rotation(mlx);
-  ray_casting(mlx, mlx->data);
-  mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.mlx_image, 0, 0);
-  return (0);
+	int		i;
+
+	mlx->data = data;
+	mlx->player = player;
+	data->player = player;
+	data->mlx = mlx;
+	i = -1;
+	while (++i < 6)
+		data->key_pressed[i] = 0;
+	if (parse(argv, data))
+		return (free_map(data), 1);
+	mlx->mlx = mlx_init();
+	if (!mlx->mlx)
+		return (clean_all(mlx), 1);
+	mlx->win = mlx_new_window(mlx->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "lo3ba");
+	if (!mlx->win)
+		return (clean_all(mlx), 1);
+	return (0);
 }
 
-t_img load_texture(t_mlx *mlx, char *path)
+int	main(int argc, char **argv)
 {
-  t_img texture;
+	t_mlx	mlx;
+	t_pl	player;
+	t_data	data;
 
-  texture.mlx_image = mlx_xpm_file_to_image(mlx->mlx, path, &texture.width, &texture.height);
-  if (!texture.mlx_image)
-  {
-    printf("failed to load %s\n",path);
-    exit (1);
-  }
-  texture.image_data = mlx_get_data_addr(texture.mlx_image, &texture.bits_per_pixel, &texture.size_line, &texture.endian);
-  return (texture);
+	if (argc == 2)
+	{
+		if (init(&mlx, &data, argv[1], &player))
+			return (1);
+		get_texture(&mlx, &data);
+		mlx.img.mlx_image = mlx_new_image(mlx.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+		mlx.img.image_data = mlx_get_data_addr(mlx.img.mlx_image,
+				&mlx.img.bits_per_pixel, &mlx.img.size_line, &mlx.img.endian);
+		mlx_hook(mlx.win, 2, 1L << 0, key_press, &data);
+		mlx_hook(mlx.win, 3, 1L << 1, key_release, &data);
+		mlx_hook(mlx.win, 17, 0, red_cross, &mlx);
+		mlx_loop_hook(mlx.mlx, game_loop, &mlx);
+		mlx_loop(mlx.mlx);
+		return (0);
+	}
+	printf("Error\n");
+	return (1);
 }
 
-void get_texture(t_mlx *mlx, t_data *data)
-{
-  data->tex_no = load_texture(mlx, data->no);
-  data->tex_so = load_texture(mlx, data->so);
-  data->tex_ea = load_texture(mlx, data->ea);
-  data->tex_we = load_texture(mlx, data->we);
-}
-
-int main(int argc, char **argv)
-{
-  t_mlx mlx;
-  t_pl player;
-  t_data data;
-  int i;
-
-  if (argc == 2)
-  {
-    mlx.data = &data;
-    mlx.player = &player;
-    data.player = &player;
-    data.mlx = &mlx;
-    i = -1;
-    while (++i < 6)
-      data.key_pressed[i] = 0;
-    if (parse(argv[1], &data))
-      return(free_map(&data), 1);
-    mlx.mlx = mlx_init();
-    if(!mlx.mlx)
-      return(clean_all(&mlx), 1);
-    mlx.win = mlx_new_window(mlx.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "lo3ba");
-    if(!mlx.win)
-      return(clean_all(&mlx), 1);
-    get_texture(&mlx, &data);
-    mlx.img.mlx_image = mlx_new_image(mlx.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-    mlx.img.image_data = mlx_get_data_addr(mlx.img.mlx_image, &mlx.img.bits_per_pixel, &mlx.img.size_line, &mlx.img.endian);
-    mlx_hook(mlx.win, 2, 1L << 0, key_press, &data);
-    mlx_hook(mlx.win, 3, 1L << 1, key_release, &data);
-    mlx_hook(mlx.win, 17, 0, red_cross, &mlx);
-    mlx_loop_hook(mlx.mlx, game_loop, &mlx);
-    mlx_loop(mlx.mlx);
-    return (0);
-  }
-  printf("Error\n");
-  return(1);
-}
-
-// int draw_wall_slice(t_mlx *mlx, double distance, int i, t_img *texture, double angle, double wall_x)
+// int draw_wall_slice(t_mlx *mlx, double distance, int i, 
+// t_img *texture, double angle, double wall_x)
 // {
 //   int top;
 //   int bottom;

@@ -6,7 +6,7 @@
 /*   By: zelkalai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 12:04:28 by zelkalai          #+#    #+#             */
-/*   Updated: 2024/02/15 16:42:19 by zelkalai         ###   ########.fr       */
+/*   Updated: 2025/01/26 12:48:53 by zelkalai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
-#include <libft.h>
+# include <libft.h>
 
 char				*get_next_line(int fd);
 void				list_maker(t_list **list, int fd);

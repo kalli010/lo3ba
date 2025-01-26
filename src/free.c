@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zelkalai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/11 17:05:59 by zelkalai          #+#    #+#             */
-/*   Updated: 2023/11/11 20:23:17 by zelkalai         ###   ########.fr       */
+/*   Created: 2025/01/26 11:25:38 by zelkalai          #+#    #+#             */
+/*   Updated: 2025/01/26 11:25:39 by zelkalai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <cub3D.h>
 
-char	*ft_strdup(const char *s)
+void	free_map(t_data *data)
 {
-	char	*dup;
-	size_t	len;
+	int	i;
 
-	len = ft_strlen(s) + 1;
-	dup = malloc(len);
-	if (dup == NULL)
-		return (NULL);
-	ft_memcpy(dup, s, len);
-	if (dup[ft_strlen(s) - 1] == '\n')
-		dup[ft_strlen(s) - 1] = '\0';
-	return (dup);
+	i = 0;
+	while (data->map && data->map[i])
+	{
+		free(data->map[i]);
+		i++;
+	}
+	free(data->map);
+}
+
+void	clean_all(t_mlx *mlx)
+{
+	mlx_destroy_window(mlx->mlx, mlx->win);
+	mlx_destroy_display(mlx->mlx);
+	free_map(mlx->data);
+	free(mlx->mlx);
 }
