@@ -26,24 +26,14 @@ void	draw_wall_slice(t_mlx *mlx, t_draw_map *d, t_img *texture, int column)
 		{
 			w.tex_y_int = (int)w.tex_y % texture->height;
 			w.color = get_texture_pixel(texture, w.tex_x, w.tex_y_int);
-			put_pixel_to_image(mlx->img, column, w.y++, w.color);
+			if (w.color != -16777216)
+				put_pixel_to_image(mlx->img, column, w.y, w.color);
+			w.y++;
 		}
 		w.tex_y += w.step;
 	}
 	while (++w.y < SCREEN_HEIGHT)
 		put_pixel_to_image(mlx->img, column, w.y, 0xf0a64d);
-}
-
-void	init_ray_data_2(t_draw_map *d)
-{
-	if (d->ray_x < 0)
-		d->side_dist_x = (d->p_x - d->map_x) * d->dist_x;
-	else
-		d->side_dist_x = (d->map_x + 1 - d->p_x) * d->dist_x;
-	if (d->ray_y < 0)
-		d->side_dist_y = (d->p_y - d->map_y) * d->dist_y;
-	else
-		d->side_dist_y = (d->map_y + 1 - d->p_y) * d->dist_y;
 }
 
 void	init_ray_data(t_draw_map *d, t_data *data)
@@ -91,7 +81,8 @@ void	get_wall_dist(t_draw_map *d, t_data *data)
 			d->map_y += d->step_y;
 			d->side = 1;
 		}
-		if (data->map[d->map_y][d->map_x] == '1')
+		if (data->map[d->map_y][d->map_x] == '1'
+			|| data->map[d->map_y][d->map_x] == 'D')
 			break ;
 	}
 	if (d->side == 0)
@@ -99,6 +90,24 @@ void	get_wall_dist(t_draw_map *d, t_data *data)
 	else
 		d->wall_dist = (d->map_y - d->p_y + (1 - d->step_y) / 2) / d->ray_y;
 	d->wall_dist *= cos(data->player->angle - d->ray_angle);
+}
+
+void	draw_wall(t_mlx *mlx, t_data *data, t_draw_map *d)
+{
+	if (d->side == 0)
+	{
+		if (d->step_x > 0)
+			draw_wall_slice(mlx, d, &data->tex_ea, d->i);
+		else
+			draw_wall_slice(mlx, d, &data->tex_we, d->i);
+	}
+	else
+	{
+		if (d->step_y > 0)
+			draw_wall_slice(mlx, d, &data->tex_so, d->i);
+		else
+			draw_wall_slice(mlx, d, &data->tex_no, d->i);
+	}
 }
 
 /*---draw the 3D map (ray casting)---*/
@@ -113,19 +122,9 @@ void	draw_map(t_mlx *mlx, t_data *data)
 	{
 		init_ray_data(&d, data);
 		get_wall_dist(&d, data);
-		if (d.side == 0)
-		{
-			if (d.step_x > 0)
-				draw_wall_slice(mlx, &d, &data->tex_ea, d.i);
-			else
-				draw_wall_slice(mlx, &d, &data->tex_we, d.i);
-		}
+		if (data->map[d.map_y][d.map_x] == 'D')
+			draw_wall_slice(mlx, &d, &data->door, d.i);
 		else
-		{
-			if (d.step_y > 0)
-				draw_wall_slice(mlx, &d, &data->tex_so, d.i);
-			else
-				draw_wall_slice(mlx, &d, &data->tex_no, d.i);
-		}
+			draw_wall(mlx, data, &d);
 	}
 }

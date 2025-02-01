@@ -49,8 +49,6 @@ typedef struct s_draw_rays
 	double	ray_y;
 	double	step_x;
 	double	step_y;
-	double	ssssstep_x;
-	double	ssssstep_y;
 }			t_draw_rays;
 
 typedef struct s_draw_minimap

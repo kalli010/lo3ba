@@ -6,7 +6,7 @@
 /*   By: zelkalai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:27:24 by zelkalai          #+#    #+#             */
-/*   Updated: 2025/01/26 11:27:25 by zelkalai         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:34:54 by zelkalai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,27 @@ t_img	load_texture(t_mlx *mlx, char *path)
 	return (texture);
 }
 
+void	get_spirit_texture(t_mlx *mlx, t_data *data)
+{
+	int		i;
+	char	filename[20];
+
+	(void)mlx;
+	(void)data;
+	i = -1;
+	while (++i < 21)
+	{
+		sprintf(filename, "sprite/aim/%d.xpm", i);
+		data->spirit.aim[i] = load_texture(mlx, filename);
+	}
+}
+
 void	get_texture(t_mlx *mlx, t_data *data)
 {
 	data->tex_no = load_texture(mlx, data->no);
 	data->tex_so = load_texture(mlx, data->so);
 	data->tex_ea = load_texture(mlx, data->ea);
 	data->tex_we = load_texture(mlx, data->we);
+	data->door = load_texture(mlx, "sprite/door/0.xpm");
+	get_spirit_texture(mlx, data);
 }

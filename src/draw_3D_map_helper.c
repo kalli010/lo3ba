@@ -62,3 +62,15 @@ void	init_wall_slice(t_draw_wall_slice *w, t_draw_map *d, t_img *texture)
 	w->step = (double)texture->height / d->wall_h;
 	w->tex_y = (w->top - SCREEN_HEIGHT / 2 + d->wall_h / 2) * w->step;
 }
+
+void	init_ray_data_2(t_draw_map *d)
+{
+	if (d->ray_x < 0)
+		d->side_dist_x = (d->p_x - d->map_x) * d->dist_x;
+	else
+		d->side_dist_x = (d->map_x + 1 - d->p_x) * d->dist_x;
+	if (d->ray_y < 0)
+		d->side_dist_y = (d->p_y - d->map_y) * d->dist_y;
+	else
+		d->side_dist_y = (d->map_y + 1 - d->p_y) * d->dist_y;
+}

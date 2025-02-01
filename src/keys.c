@@ -12,6 +12,27 @@
 
 #include <cub3D.h>
 
+void	check_door(t_data *data)
+{
+	t_pl	*pl;
+
+	pl = data->player;
+	if (data->map[(int)(pl->y + sin(pl->angle))][(int)(pl->x
+			+ cos(pl->angle))] == 'D')
+	{
+		if (data->map[(int)pl->y][(int)pl->x] != 'D')
+			data->map[(int)(pl->y + sin(pl->angle))][(int)(pl->x
+					+ cos(pl->angle))] = 'B';
+	}
+	else if (data->map[(int)(pl->y + sin(pl->angle))][(int)(pl->x
+			+ cos(pl->angle))] == 'B')
+	{
+		if (data->map[(int)pl->y][(int)pl->x] != 'B')
+			data->map[(int)(pl->y + sin(pl->angle))][(int)(pl->x
+					+ cos(pl->angle))] = 'D';
+	}
+}
+
 /*---w,s,d,a keys---*/
 void	key_mouvment(t_mlx *mlx)
 {
@@ -53,7 +74,6 @@ int	key_rotation(t_mlx *mlx)
 		mlx->player->angle += 2 * M_PI;
 	if (mlx->player->angle >= 2 * M_PI)
 		mlx->player->angle -= 2 * M_PI;
-	ray_casting(mlx, mlx->data);
 	return (0);
 }
 
@@ -76,6 +96,8 @@ int	key_press(int keycode, t_data *data)
 		data->key_pressed[4] = 1;
 	if (keycode == 65363)
 		data->key_pressed[5] = 1;
+	if (keycode == 'q')
+		check_door(data);
 	return (0);
 }
 
@@ -93,13 +115,5 @@ int	key_release(int keycode, t_data *data)
 		data->key_pressed[4] = 0;
 	if (keycode == 65363)
 		data->key_pressed[5] = 0;
-	return (0);
-}
-
-/*---red cross---*/
-int	red_cross(t_mlx *mlx)
-{
-	clean_all(mlx);
-	exit(0);
 	return (0);
 }

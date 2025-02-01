@@ -12,6 +12,13 @@
 
 #include <cub3D.h>
 
+int	red_cross(t_mlx *mlx)
+{
+	clean_all(mlx);
+	exit(0);
+	return (0);
+}
+
 /*---draw everything---*/
 void	ray_casting(t_mlx *mlx, t_data *data)
 {
@@ -24,24 +31,42 @@ void	ray_casting(t_mlx *mlx, t_data *data)
 
 int	game_loop(t_mlx *mlx)
 {
+	unsigned long	current_time;
+
+	current_time = get_current_time();
+	if (mlx->data->mouse_moving && current_time
+		- mlx->data->last_mouse_time > 0)
+	{
+		mlx->data->mouse_moving = 0;
+		mlx->data->key_pressed[4] = 0;
+		mlx->data->key_pressed[5] = 0;
+	}
+	mlx_clear_window(mlx->mlx, mlx->win);
+	ray_casting(mlx, mlx->data);
+	left_click(mlx);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.mlx_image, 0, 0);
 	key_mouvment(mlx);
 	key_rotation(mlx);
-	ray_casting(mlx, mlx->data);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.mlx_image, 0, 0);
 	return (0);
 }
 
 int	init(t_mlx *mlx, t_data *data, char *argv, t_pl *player)
 {
-	int		i;
+	int	i;
 
 	mlx->data = data;
 	mlx->player = player;
 	data->player = player;
 	data->mlx = mlx;
+	data->mouse_moving = 0;
+	data->last_mouse_time = 0;
+	data->last_mouse_x = -1;
 	i = -1;
-	while (++i < 6)
+	while (++i < 7)
 		data->key_pressed[i] = 0;
+	data->spirit.animating = 0;
+	data->spirit.current_frame = 0;
+	data->spirit.last_frame = 0;
 	if (parse(argv, data))
 		return (free_map(data), 1);
 	mlx->mlx = mlx_init();
@@ -69,6 +94,8 @@ int	main(int argc, char **argv)
 				&mlx.img.bits_per_pixel, &mlx.img.size_line, &mlx.img.endian);
 		mlx_hook(mlx.win, 2, 1L << 0, key_press, &data);
 		mlx_hook(mlx.win, 3, 1L << 1, key_release, &data);
+		mlx_hook(mlx.win, 6, 1L << 6, mouse_rotation, &data);
+		mlx_hook(mlx.win, 4, 1L << 2, mouse_click, &data);
 		mlx_hook(mlx.win, 17, 0, red_cross, &mlx);
 		mlx_loop_hook(mlx.mlx, game_loop, &mlx);
 		mlx_loop(mlx.mlx);
@@ -78,7 +105,7 @@ int	main(int argc, char **argv)
 	return (1);
 }
 
-// int draw_wall_slice(t_mlx *mlx, double distance, int i, 
+// int draw_wall_slice(t_mlx *mlx, double distance, int i,
 // t_img *texture, double angle, double wall_x)
 // {
 //   int top;

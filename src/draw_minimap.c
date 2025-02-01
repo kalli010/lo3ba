@@ -83,6 +83,10 @@ void	draw_minimap(t_mlx *mlx, t_data *data)
 			{
 				if (data->map[d.y][d.x] == '1')
 					pixel_put(mlx, d.x, d.y, 0x000000);
+				else if (data->map[d.y][d.x] == 'D')
+					pixel_put(mlx, d.x, d.y, 0x521827);
+				else if (data->map[d.y][d.x] == 'B')
+					pixel_put(mlx, d.x, d.y, 0x194a15);
 				else
 					pixel_put(mlx, d.x, d.y, 0x908c96);
 			}
