@@ -23,6 +23,16 @@
 # include <sys/time.h>
 # include <time.h>
 # include <unistd.h>
+#include <stdbool.h>
+
+
+#define M_EMSG1 "Error\nDupping the map!\n"
+#define M_EMSG2 "Error\nThe map is not closed!\n"
+#define M_EMSG3 "Error\nToo many player Symbols on the map\n"
+#define M_EMSG4 "Error\nNo player on the map\n"
+#define M_EMSG5 "Error\nInvalid character on the map\n"
+#define M_EMSG6 "Error\nFloor RGB values out of range 0-255\n"
+#define M_EMSG7 "Error\nCeiling RGB values out of range 0-255\n"
 
 # define SCREEN_HEIGHT 480
 # define SCREEN_WIDTH 640
@@ -61,12 +71,6 @@ typedef struct s_spirit
 	unsigned long	last_frame;
 
 }					t_spirit;
-
-typedef struct s_door
-{
-	int				x;
-	int				y;
-}					t_door;
 
 typedef struct s_data
 {
@@ -124,6 +128,49 @@ int					check_player_position(t_data *data, int i, int j, int *p);
 int					ft_ft(int fd, t_data *data);
 int					set_map(char *file, t_data *data);
 int					check_file(char *file);
+
+/****************************************************/
+/////////////////*   PARSE MORE *////////////////////
+/****************************************************/
+
+/*parse_maputils.c*/
+int					map_invalid(char *file);
+bool				map_closed(char **map, int map_height);
+int					valid_map_chars(char **map);
+bool				player_hadar(char **map);
+bool				check_cell(int x, int y, char **map, int ht);
+
+/*parse_more_utils.c*/
+char				*get_first_line(int fd);
+char				*dup_mline(char *line);
+bool				is_valid_cell(int x, int y, char **map, int map_height);
+bool				invalid_mapchar(char c);
+bool				is_player_char(char c);
+
+/*parse_configs.c*/
+int					check_configs(t_data *data);
+int					check_fnc(t_data *data);
+int					check_texture(t_data *data);
+int					invalid_fcchar(char *str);
+int					check_rgb_num(t_data *data);
+
+/*parse_configs_utils.c*/
+bool				invalid_char(char c);
+int					ft_check_bound(char **ptr);
+bool				iswhite_space(char c);
+bool				ft_isdigit_two(char c);
+char				**strdup_map(int fd, int lcount);
+
+/*free.c*/
+void				double_free(char **args);
+int					free_error_fd(char *msg, char **map, int fd, int fd2);
+int					error_tf(char *msg, char **cvalue, char **fvalue);
+int					error_msg(char *msg, int status);
+
+//////////////////////////////////////////
+                /*******/
+/////////////////////////////////////////
+
 int					parse(char *file, t_data *data);
 
 /*mouse.c*/

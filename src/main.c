@@ -101,55 +101,6 @@ int	main(int argc, char **argv)
 		mlx_loop(mlx.mlx);
 		return (0);
 	}
-	printf("Error\n");
+	printf("expecting <./cub3d> <file.cub>\n");
 	return (1);
 }
-
-// int draw_wall_slice(t_mlx *mlx, double distance, int i,
-// t_img *texture, double angle, double wall_x)
-// {
-//   int top;
-//   int bottom;
-//   int y;
-//   double wall_h;
-//   double center_x;
-//   double center_y;
-//   double radius;
-//   int tex_x;
-//   int tex_y;
-//   int color;
-//
-//   center_x = OFFSET + mlx->data->pixel_size * 4;
-//   center_y = OFFSET + mlx->data->pixel_size * 4;
-//   radius = mlx->data->pixel_size * 4;
-//   wall_h = SCREEN_HEIGHT / (distance * cos(angle));
-//   top = (SCREEN_HEIGHT / 2) - (int)(wall_h / 2);
-//   if (top < 0)
-//     top = 0;
-//   bottom = (SCREEN_HEIGHT / 2) + (int)(wall_h / 2);
-//   if (bottom >= SCREEN_HEIGHT)
-//     bottom = SCREEN_HEIGHT - 1;
-//   tex_x = (int)(wall_x * texture->width);
-//   y = top - 1;
-//   while (++y <= bottom)
-//   {
-//     if (sqrt(pow(i - center_x, 2) + pow(y - center_y, 2)) > radius)
-//     {
-//       tex_y = (int)(((y - top) / wall_h) * texture->height);
-//       color = get_texture_pixel(texture, tex_x, tex_y);
-//       put_pixel_to_image(mlx->img, i, y, color);
-//     }
-//     else
-//       y++;
-//   }
-//   y = -1;
-//   while (++y < top)
-//   {
-//     if (sqrt(pow(i - center_x, 2) + pow(y - center_y, 2)) > radius)
-//       put_pixel_to_image(mlx->img, i, y, 0x4ff2f7);
-//   }
-//   y = bottom;
-//   while (++y < SCREEN_HEIGHT)
-//     put_pixel_to_image(mlx->img, i, y, 0xf0a64d);
-//   return (0);
-// }

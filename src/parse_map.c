@@ -34,13 +34,22 @@ char	*get_parameters(int fd, t_data *data)
 			i++;
 		if (line[i] && (line[i] == '0' || line[i] == '1'))
 			return (line);
-		else if (line[i] && line[i] == 'N')
+		// else if (line[i] && line[i] == 'N')
+		// 	data->no = ft_strdup(&line[i + 3]);
+		// else if (line[i] && line[i] == 'S')
+		// 	data->so = ft_strdup(&line[i + 3]);
+		// else if (line[i] && line[i] == 'W')
+		// 	data->we = ft_strdup(&line[i + 3]);
+		// else if (line[i] && line[i] == 'E')
+		// 	data->ea = ft_strdup(&line[i + 3]);
+
+		else if (line[i] && line[i] == 'N' && line[i + 1] == 'O')
 			data->no = ft_strdup(&line[i + 3]);
-		else if (line[i] && line[i] == 'S')
+		else if (line[i] && line[i] == 'S' && line[i + 1] == 'O')
 			data->so = ft_strdup(&line[i + 3]);
-		else if (line[i] && line[i] == 'W')
+		else if (line[i] && line[i] == 'W' && line[i + 1] == 'E')
 			data->we = ft_strdup(&line[i + 3]);
-		else if (line[i] && line[i] == 'E')
+		else if (line[i] && line[i] == 'E' && line[i + 1] == 'A')
 			data->ea = ft_strdup(&line[i + 3]);
 		else if (line[i] && line[i] == 'F')
 			data->f = ft_strdup(&line[i + 2]);
@@ -54,21 +63,25 @@ char	*get_parameters(int fd, t_data *data)
 
 int	check_player_position(t_data *data, int i, int j, int *p)
 {
-	if (data->map[i][j] == 'N')
+	// if (data->map[i][j] == 'N')
+	if (data->map[i][j] == 'N' && data->map[i][j + 1] != 'O') //// // /
 		data->player->angle = 3 * M_PI / 2;
-	else if (data->map[i][j] == 'S')
+	else if (data->map[i][j] == 'S' && data->map[i][j + 1] != 'O')
 		data->player->angle = M_PI / 2;
-	else if (data->map[i][j] == 'E')
+	else if (data->map[i][j] == 'E' && data->map[i][j + 1] != 'A')
 		data->player->angle = 0;
-	else if (data->map[i][j] == 'W')
+	else if (data->map[i][j] == 'W' && data->map[i][j + 1] != 'E')
 		data->player->angle = M_PI;
 	data->map[i][j] = '0';
-	data->player->x = j + 0.5;
-	data->player->y = i + 0.5;
-	(*p)++;
+	data->player->x = j + 0.5; ///
+	data->player->y = i + 0.5; ///
+	(*p)++; // will always increment even if there is no player!!?
 	return (0);
 }
 
+// parse player:
+// traverse to the start of the map
+// checks if there is a palyer on the map
 int	ft_ft(int fd, t_data *data)
 {
 	int		i;
@@ -79,6 +92,7 @@ int	ft_ft(int fd, t_data *data)
 	line = get_parameters(fd, data);
 	p = 0;
 	i = 0;
+
 	while (line)
 	{
 		data->map[i] = line;
@@ -99,8 +113,14 @@ int	ft_ft(int fd, t_data *data)
 	}
 	if (p != 1)
 		return (1);
+
+
+	data->map[i] = NULL; //// // /
+
+
 	return (0);
 }
+
 
 /*set data*/
 int	set_map(char *file, t_data *data)
@@ -117,7 +137,7 @@ int	set_map(char *file, t_data *data)
 	}
 	data->map_h = count_lines(fd1);
 	data->map = (char **)malloc(sizeof(char *) * (data->map_h + 1));
-	if (ft_ft(fd2, data))
+	if (ft_ft(fd2, data)) //
 		return (1);
 	data->map[data->map_h] = NULL;
 	close(fd1);
@@ -142,13 +162,19 @@ int	check_file(char *file)
 	return (0);
 }
 
+
 /*lparsing*/
 int	parse(char *file, t_data *data)
 {
 	data->map = NULL;
 	if (check_file(file))
 		return (1);
+	if (map_invalid(file)) //
+		return (1);
 	if (set_map(file, data))
 		return (1);
+	if (check_configs(data)) //
+		return (1);
+
 	return (0);
 }
