@@ -67,8 +67,22 @@ int	init(t_mlx *mlx, t_data *data, char *argv, t_pl *player)
 	data->spirit.animating = 0;
 	data->spirit.current_frame = 0;
 	data->spirit.last_frame = 0;
+
+	///////////////////////
+	data->f = NULL;
+	data->c = NULL;
+	data->we = NULL;
+	data->ea = NULL;
+	data->so = NULL;
+	data->no = NULL;
+	///////////////////////
+
 	if (parse(argv, data))
 		return (free_map(data), 1);
+
+
+
+
 	mlx->mlx = mlx_init();
 	if (!mlx->mlx)
 		return (clean_all(mlx), 1);

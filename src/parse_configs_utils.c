@@ -12,6 +12,7 @@
 
 #include <cub3D.h>
 
+
 bool	invalid_char(char c)
 {
 	if (c != ',' && !iswhite_space(c) && !ft_isdigit_two(c))
@@ -54,25 +55,4 @@ bool	ft_isdigit_two(char c)
 		return (0);
 }
 
-char	**strdup_map(int fd, int lcount)
-{
-	int		i;
-	char	**new;
-	char	*line;
 
-	new = malloc(sizeof(char *) * (lcount + 1));
-	line = get_first_line(fd);
-	if (!new || !line)
-		return (NULL);
-	i = 0;
-	new[i] = dup_mline(line);
-	while (++i < lcount)
-	{
-		line = get_next_line(fd);
-		new[i] = dup_mline(line);
-		if (!new[i])
-			return (NULL);
-	}
-	new[i] = NULL;
-	return (new);
-}

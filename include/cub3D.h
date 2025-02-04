@@ -24,15 +24,17 @@
 # include <time.h>
 # include <unistd.h>
 #include <stdbool.h>
+#include <fcntl.h>
 
 
-#define M_EMSG1 "Error\nDupping the map!\n"
+// #define M_EMSG1 "Error\nDupping the map!\n"
 #define M_EMSG2 "Error\nThe map is not closed!\n"
 #define M_EMSG3 "Error\nToo many player Symbols on the map\n"
 #define M_EMSG4 "Error\nNo player on the map\n"
 #define M_EMSG5 "Error\nInvalid character on the map\n"
 #define M_EMSG6 "Error\nFloor RGB values out of range 0-255\n"
 #define M_EMSG7 "Error\nCeiling RGB values out of range 0-255\n"
+#define M_EMSG8 "Error\nThere's No Map\n"
 
 # define SCREEN_HEIGHT 480
 # define SCREEN_WIDTH 640
@@ -44,6 +46,8 @@
 # define MOVE_SPEED 0.1
 # define ROTATION_SPEED 0.1
 # define PITCH_FACTOR 1
+
+# define MAX_RGB 16777215
 
 typedef struct s_pl
 {
@@ -81,6 +85,9 @@ typedef struct s_data
 	char			**map;
 	int				map_w;
 	int				map_h;
+	///////
+	int				f_value;
+	int				c_value;
 	char			*f;
 	char			*c;
 	char			*no;
@@ -141,11 +148,21 @@ bool				player_hadar(char **map);
 bool				check_cell(int x, int y, char **map, int ht);
 
 /*parse_more_utils.c*/
+int					count_map_lines(int fd);
+char				**strdup_map(int fd, int lcount);
 char				*get_first_line(int fd);
 char				*dup_mline(char *line);
 bool				is_valid_cell(int x, int y, char **map, int map_height);
+
+/*parse_more_utils2.c*/
+bool				onlysp_orempty(char *mapl);
 bool				invalid_mapchar(char c);
 bool				is_player_char(char c);
+void				print_map(char **map); //// // /
+void				print_data(t_data *data);
+int					duplicate_configs(char *file);
+int					configs_found(char *line);
+
 
 /*parse_configs.c*/
 int					check_configs(t_data *data);
@@ -153,19 +170,26 @@ int					check_fnc(t_data *data);
 int					check_texture(t_data *data);
 int					invalid_fcchar(char *str);
 int					check_rgb_num(t_data *data);
+int check_last_ch(t_data *data);
+
 
 /*parse_configs_utils.c*/
 bool				invalid_char(char c);
 int					ft_check_bound(char **ptr);
 bool				iswhite_space(char c);
 bool				ft_isdigit_two(char c);
-char				**strdup_map(int fd, int lcount);
 
 /*free.c*/
 void				double_free(char **args);
 int					free_error_fd(char *msg, char **map, int fd, int fd2);
 int					error_tf(char *msg, char **cvalue, char **fvalue);
 int					error_msg(char *msg, int status);
+
+/********/
+int rgb_to_int(int red, int green, int blue);
+int rgb_final_check(t_data *data, char **c, char **f);
+int set_rgb_values(t_data *data, char **c, char **f);
+int is_digit_str(char *str);
 
 //////////////////////////////////////////
                 /*******/

@@ -129,7 +129,7 @@ int	set_map(char *file, t_data *data)
 	int	fd2;
 
 	fd1 = open(file, O_RDONLY);
-	fd2 = open(file, O_RDONLY);
+	fd2 = open(file, O_RDONLY);	
 	if (fd1 < 0 || fd2 < 0)
 	{
 		printf("Error\ncan't open the map's file.\n");
@@ -169,12 +169,45 @@ int	parse(char *file, t_data *data)
 	data->map = NULL;
 	if (check_file(file))
 		return (1);
+	if (duplicate_configs(file))
+		return (1);
 	if (map_invalid(file)) //
 		return (1);
 	if (set_map(file, data))
 		return (1);
 	if (check_configs(data)) //
 		return (1);
+	// if (check_first_char(file))
+	// 	return (1);
+	
+	// printf("222222\n");
+	print_map(data->map);
+	print_data(data); ///////
 
 	return (0);
 }
+
+// int check_first_char(char *file)
+// {
+// 	int fd;
+// 	char *line;
+// 	// int i;
+
+// 	fd = open(file, O_RDONLY);
+// 	if (fd < 0)
+// 		return (printf("ERRR\n"), 1);
+// 	line = get_next_line(fd);
+// 	while (line)
+// 	{
+// 		if (!valid_first_char(line[0]))
+// 			return (printf("Error\n Wrong configs\n"), 1);
+// 		free (line);
+// 		line = get_next_line(fd);
+// 	}
+// 	return (0):
+// }
+
+// int valid_first_char(char c)
+// {
+// 	if (!invalid_mapchar(c) &&  )
+// }

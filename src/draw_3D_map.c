@@ -19,7 +19,7 @@ void	draw_wall_slice(t_mlx *mlx, t_draw_map *d, t_img *texture, int column)
 	init_wall_slice(&w, d, texture);
 	w.y = -1;
 	while (++w.y < w.top)
-		put_pixel_to_image(mlx->img, column, w.y, 0x4ff2f7);
+		put_pixel_to_image(mlx->img, column, w.y, mlx->data->c_value);
 	while (w.y <= w.bottom)
 	{
 		if (w.y >= 0 && w.y < SCREEN_HEIGHT)
@@ -33,7 +33,7 @@ void	draw_wall_slice(t_mlx *mlx, t_draw_map *d, t_img *texture, int column)
 		w.tex_y += w.step;
 	}
 	while (++w.y < SCREEN_HEIGHT)
-		put_pixel_to_image(mlx->img, column, w.y, 0xf0a64d);
+		put_pixel_to_image(mlx->img, column, w.y, mlx->data->f_value);
 }
 
 void	init_ray_data(t_draw_map *d, t_data *data)

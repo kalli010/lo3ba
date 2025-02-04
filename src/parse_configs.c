@@ -25,7 +25,8 @@ int	check_fnc(t_data *data)
 {
 	if (invalid_fcchar(data->c))
 	{
-		printf("Error\n invalid char in ceiling configs\n");
+		// printf("Error\n invalid char in ceiling configs [%s]\n", data->c);
+		printf("Error\n invalid char in ceiling configs\n");		
 		return (1);
 	}
 	if (invalid_fcchar(data->f))
@@ -93,18 +94,20 @@ int	check_rgb_num(t_data *data)
 	fvalue = ft_split(data->f, ',');
 	cvalue = ft_split(data->c, ',');
 	if (!cvalue || !fvalue)
-	{
-		return (printf("Error\nMalloc!!!\n"), 1);
-	}
+		return (printf("Error\nFt_split!!!\n"), 1);
 	if (ft_check_bound(fvalue))
-	{
 		return (error_tf(M_EMSG6, cvalue, fvalue));
-	}
 	if (ft_check_bound(cvalue))
-	{
 		return (error_tf(M_EMSG7, cvalue, fvalue));
-	}
+	if (rgb_final_check(data, cvalue, fvalue))
+		return (error_tf(NULL, cvalue, fvalue));
+	if (!set_rgb_values(data, cvalue, fvalue))
+		return (error_tf(NULL, cvalue, fvalue));
+
+	// print_data(data);
 	double_free(fvalue);
 	double_free(cvalue);
 	return (0);
 }
+
+
