@@ -33,6 +33,16 @@ int	count_lines(int fd)
 	return (j);
 }
 
+int scape_spaces(char *line)
+{
+  int i;
+
+  i = 2;
+  while (line[i] == ' ')
+    i++;
+  return(i);
+}
+
 char	*get_parameters(int fd, t_data *data)
 {
 	int		i;
@@ -47,17 +57,35 @@ char	*get_parameters(int fd, t_data *data)
 		if (line[i] && (line[i] == '0' || line[i] == '1'))
 			return (line);
 		else if (line[i] && line[i] == 'N' && line[i + 1] == 'O')
-			data->no = ft_strdup(&line[i + 3]);
+    {
+      i += scape_spaces(&line[i]);
+      data->no = ft_strdup(&line[i]);
+    }
 		else if (line[i] && line[i] == 'S' && line[i + 1] == 'O')
-			data->so = ft_strdup(&line[i + 3]);
+    {
+      i += scape_spaces(&line[i]);
+			data->so = ft_strdup(&line[i]);
+    }
 		else if (line[i] && line[i] == 'W' && line[i + 1] == 'E')
-			data->we = ft_strdup(&line[i + 3]);
+    {
+      i += scape_spaces(&line[i]);
+			data->we = ft_strdup(&line[i]);
+    }
 		else if (line[i] && line[i] == 'E' && line[i + 1] == 'A')
-			data->ea = ft_strdup(&line[i + 3]);
+    {
+      i += scape_spaces(&line[i]);
+			data->ea = ft_strdup(&line[i]);
+    }
 		else if (line[i] && line[i] == 'F')
-			data->f = ft_strdup(&line[i + 2]);
+    {
+      i += scape_spaces(&line[i]);
+			data->f = ft_strdup(&line[i]);
+    }
 		else if (line[i] && line[i] == 'C')
-			data->c = ft_strdup(&line[i + 2]);
+    {
+      i += scape_spaces(&line[i]);
+			data->c = ft_strdup(&line[i]);
+    }
 		free(line);
 		line = get_next_line(fd);
 	}

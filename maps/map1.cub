@@ -1,10 +1,10 @@
 F 76,76,76
-C 99,99,99
+C 99,  99,99
 
-NO textures/wolfenstein/purple_stone.xpm
-SO textures/wolfenstein/red_brick.xpm
-WE textures/wolfenstein/wood.xpm
-EA textures/wolfenstein/color_stone.xpm
+NO                      textures/wolfenstein/purple_stone.xpm
+SO                      textures/wolfenstein/red_brick.xpm
+WE                      textures/wolfenstein/wood.xpm
+EA                        textures/wolfenstein/color_stone.xpm
 
 11111111111111111111111111111111111111111111111111111111111111111111111111
 10100000000010000000000001000000000100000000000010000000000001000000000001
