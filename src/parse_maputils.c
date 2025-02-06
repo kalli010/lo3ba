@@ -22,7 +22,7 @@ int	map_invalid(char *file)
 	fd = open(file, O_RDONLY);
 	fd2 = open(file, O_RDONLY);
 	if (fd < 0 || fd2 < 0)
-		return (printf("Error\nOpening the file\n"), 1);
+		return (printf("Error\nOpening the file map_invalid\n"), 1);
 	lcount = count_map_lines(fd2);
 	if (lcount <= 0)
 		return (free_error_fd(M_EMSG8, NULL, fd, fd2));

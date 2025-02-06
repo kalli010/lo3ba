@@ -6,7 +6,7 @@
 /*   By: zelkalai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:12:18 by zelkalai          #+#    #+#             */
-/*   Updated: 2025/01/26 11:23:57 by zelkalai         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:48:14 by zelkalai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,16 @@ void	pixel_put(t_mlx *mlx, double map_x, double map_y, int color)
 	}
 }
 
+int	count_map_w(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (data->mini_map[0][++i])
+		;
+	return (i);
+}
+
 /*---Draw the minimap---*/
 void	draw_minimap(t_mlx *mlx, t_data *data)
 {
@@ -81,11 +91,11 @@ void	draw_minimap(t_mlx *mlx, t_data *data)
 		{
 			if (d.y >= 0 && d.x >= 0 && d.y < data->map_h && d.x < data->map_w)
 			{
-				if (data->map[d.y][d.x] == '1')
+				if (data->mini_map[d.y][d.x] == '1')
 					pixel_put(mlx, d.x, d.y, 0x000000);
-				else if (data->map[d.y][d.x] == 'D')
+				else if (data->mini_map[d.y][d.x] == 'D')
 					pixel_put(mlx, d.x, d.y, 0x521827);
-				else if (data->map[d.y][d.x] == 'B')
+				else if (data->mini_map[d.y][d.x] == 'B')
 					pixel_put(mlx, d.x, d.y, 0x194a15);
 				else
 					pixel_put(mlx, d.x, d.y, 0x908c96);

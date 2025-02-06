@@ -23,15 +23,15 @@ int	check_configs(t_data *data)
 
 int	check_fnc(t_data *data)
 {
-	if (invalid_fcchar(data->c))
+	if (invalid_fc_line(data->c))
 	{
-		// printf("Error\n invalid char in ceiling configs [%s]\n", data->c);
 		printf("Error\n invalid char in ceiling configs\n");		
 		return (1);
 	}
-	if (invalid_fcchar(data->f))
+	if (invalid_fc_line(data->f))
 	{
 		printf("Error\n invalid char in floor configs\n");
+		printf("[%s]\n", data->f);
 		return (1);
 	}
 	if (check_rgb_num(data))
@@ -68,7 +68,7 @@ int	check_texture(t_data *data)
 	return (0);
 }
 
-int	invalid_fcchar(char *str)
+int	invalid_fc_line(char *str)
 {
 	int	i;
 
@@ -77,7 +77,7 @@ int	invalid_fcchar(char *str)
 		return (1);
 	while (str[i])
 	{
-		if (invalid_char(str[i]))
+		if (invalid_fc_char(str[i]) && str[i] != '\n')
 		{
 			return (1);
 		}
@@ -104,7 +104,6 @@ int	check_rgb_num(t_data *data)
 	if (!set_rgb_values(data, cvalue, fvalue))
 		return (error_tf(NULL, cvalue, fvalue));
 
-	// print_data(data);
 	double_free(fvalue);
 	double_free(cvalue);
 	return (0);

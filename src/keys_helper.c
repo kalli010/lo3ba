@@ -6,7 +6,7 @@
 /*   By: zelkalai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:23:20 by zelkalai          #+#    #+#             */
-/*   Updated: 2025/01/31 19:51:50 by zelkalai         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:51:33 by zelkalai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void	get_direction_vector(double angle, double *dx, double *dy)
 
 int	check_corner(t_data *data, t_mlx *mlx, double new_x, double new_y)
 {
-	return ((data->map[(int)mlx->player->y][(int)new_x] != '1' \
-				&& data->map[(int)new_y][(int)mlx->player->x] != '1' \
-				&& data->map[(int)new_y][(int)new_x] == '1') \
-			|| (data->map[(int)mlx->player->y][(int)new_x] != 'D' \
-				&& data->map[(int)new_y][(int)mlx->player->x] != 'D' \
-				&& data->map[(int)new_y][(int)new_x] == 'D'));
+	return ((data->mini_map[(int)mlx->player->y][(int)new_x] != '1' \
+				&& data->mini_map[(int)new_y][(int)mlx->player->x] != '1' \
+				&& data->mini_map[(int)new_y][(int)new_x] == '1') \
+			|| (data->mini_map[(int)mlx->player->y][(int)new_x] != 'D' \
+				&& data->mini_map[(int)new_y][(int)mlx->player->x] != 'D' \
+				&& data->mini_map[(int)new_y][(int)new_x] == 'D'));
 }
 
 void	collision_detection(t_mlx *mlx, double *new_x, double *new_y)
@@ -42,17 +42,17 @@ void	collision_detection(t_mlx *mlx, double *new_x, double *new_y)
 	t_data	*data;
 
 	data = mlx->data;
-	if (*new_x < 0 || *new_y < 0 || data->map[(int)*new_y] == NULL
-		|| data->map[(int)*new_y][(int)*new_x] == '\0')
+	if (*new_x < 0 || *new_y < 0 || data->mini_map[(int)*new_y] == NULL
+		|| data->mini_map[(int)*new_y][(int)*new_x] == '\0')
 		return ;
-	if (data->map[(int)*new_y][(int)*new_x] == '1'
-		|| data->map[(int)*new_y][(int)*new_x] == 'D')
+	if (data->mini_map[(int)*new_y][(int)*new_x] == '1'
+		|| data->mini_map[(int)*new_y][(int)*new_x] == 'D')
 	{
-		if (data->map[(int)*new_y][(int)mlx->player->x] == '1'
-			|| data->map[(int)*new_y][(int)mlx->player->x] == 'D')
+		if (data->mini_map[(int)*new_y][(int)mlx->player->x] == '1'
+			|| data->mini_map[(int)*new_y][(int)mlx->player->x] == 'D')
 			*new_y = mlx->player->y;
-		if (data->map[(int)mlx->player->y][(int)*new_x] == '1'
-			|| data->map[(int)mlx->player->y][(int)*new_x] == 'D')
+		if (data->mini_map[(int)mlx->player->y][(int)*new_x] == '1'
+			|| data->mini_map[(int)mlx->player->y][(int)*new_x] == 'D')
 			*new_x = mlx->player->x;
 		if (check_corner(data, mlx, *new_x, *new_y))
 		{
@@ -68,12 +68,13 @@ void	change_x_y(t_mlx *mlx, t_key_mouvment *k)
 {
 	k->new_x = mlx->player->x + k->dx * MOVE_SPEED;
 	k->new_y = mlx->player->y + k->dy * MOVE_SPEED;
-	if ((mlx->data->map[(int)mlx->player->y][(int)k->new_x] == '1' \
-				|| mlx->data->map[(int)mlx->player->y][(int)k->new_x] == 'D')
-		&& (mlx->data->map[(int)k->new_y][(int)mlx->player->x] == '1' \
-			|| mlx->data->map[(int)k->new_y][(int)mlx->player->x] == 'D')
-		&& (mlx->data->map[(int)k->new_y][(int)k->new_x] != '1' \
-			|| mlx->data->map[(int)k->new_y][(int)k->new_x] != 'D'))
+	if ((mlx->data->mini_map[(int)mlx->player->y][(int)k->new_x] == '1' \
+				|| mlx->data->mini_map[(int)mlx->\
+				player->y][(int)k->new_x] == 'D') \
+			&& (mlx->data->mini_map[(int)k->new_y][(int)mlx->player->x] == '1' \
+			|| mlx->data->mini_map[(int)k->new_y][(int)mlx->player->x] == 'D') \
+		&& (mlx->data->mini_map[(int)k->new_y][(int)k->new_x] != '1' \
+			|| mlx->data->mini_map[(int)k->new_y][(int)k->new_x] != 'D'))
 	{
 		k->new_y = mlx->player->y;
 		k->new_x = mlx->player->x;

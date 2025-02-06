@@ -35,6 +35,7 @@
 #define M_EMSG6 "Error\nFloor RGB values out of range 0-255\n"
 #define M_EMSG7 "Error\nCeiling RGB values out of range 0-255\n"
 #define M_EMSG8 "Error\nThere's No Map\n"
+#define M_EMSG9 "Error\nWrong configs\n"
 
 # define SCREEN_HEIGHT 480
 # define SCREEN_WIDTH 640
@@ -86,6 +87,7 @@ typedef struct s_data
 	int				map_w;
 	int				map_h;
 	///////
+	char			**mini_map;
 	int				f_value;
 	int				c_value;
 	char			*f;
@@ -168,13 +170,13 @@ int					configs_found(char *line);
 int					check_configs(t_data *data);
 int					check_fnc(t_data *data);
 int					check_texture(t_data *data);
-int					invalid_fcchar(char *str);
+int					invalid_fc_line(char *str);
 int					check_rgb_num(t_data *data);
 int check_last_ch(t_data *data);
 
 
 /*parse_configs_utils.c*/
-bool				invalid_char(char c);
+bool				invalid_fc_char(char c);
 int					ft_check_bound(char **ptr);
 bool				iswhite_space(char c);
 bool				ft_isdigit_two(char c);
@@ -190,6 +192,20 @@ int rgb_to_int(int red, int green, int blue);
 int rgb_final_check(t_data *data, char **c, char **f);
 int set_rgb_values(t_data *data, char **c, char **f);
 int is_digit_str(char *str);
+
+/************** */
+char **get_new_map(char *file);
+char **fix_map(char **map, int longest_line, int lcount);
+char *fix_line(char **map, int i, int longest_line);
+int get_llenght(char **map);
+int check_first_char(char *file);
+int valid_first_char(char c);
+
+int valid_following_chars(char *line);
+int invalid_nsew_line(char *line);
+int nsew_check(char *line);
+int invalid_sp01(char *line);
+
 
 //////////////////////////////////////////
                 /*******/
@@ -224,6 +240,7 @@ void				change_x_y(t_mlx *mlx, t_key_mouvment *k);
 void				draw_circle(t_mlx *mlx);
 void				pixel_put(t_mlx *mlx, double map_x, double map_y,
 						int color);
+int	count_map_w(t_data *data);
 void				draw_minimap(t_mlx *mlx, t_data *data);
 void				draw_rays(t_mlx *mlx, t_data *data);
 

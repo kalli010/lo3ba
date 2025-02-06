@@ -13,7 +13,7 @@
 #include <cub3D.h>
 
 
-bool	invalid_char(char c)
+bool	invalid_fc_char(char c)
 {
 	if (c != ',' && !iswhite_space(c) && !ft_isdigit_two(c))
 		return (true);
@@ -55,4 +55,11 @@ bool	ft_isdigit_two(char c)
 		return (0);
 }
 
-
+int valid_first_char(char c)
+{
+	if (c != 'F' && c != 'C' && c != 'N' && c != 'S'
+		&& c != 'W' && c != 'E' && c != 'D' && c != 'B'
+		&& c != '0' && c != '1' && !iswhite_space(c) && c != 10)
+		return (0);
+	return (1);
+}

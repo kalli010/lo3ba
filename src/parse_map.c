@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mel-atti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/06 05:15:13 by mel-atti          #+#    #+#             */
+/*   Updated: 2025/02/06 05:15:19 by mel-atti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3D.h>
 
 int	count_lines(int fd)
@@ -34,15 +46,6 @@ char	*get_parameters(int fd, t_data *data)
 			i++;
 		if (line[i] && (line[i] == '0' || line[i] == '1'))
 			return (line);
-		// else if (line[i] && line[i] == 'N')
-		// 	data->no = ft_strdup(&line[i + 3]);
-		// else if (line[i] && line[i] == 'S')
-		// 	data->so = ft_strdup(&line[i + 3]);
-		// else if (line[i] && line[i] == 'W')
-		// 	data->we = ft_strdup(&line[i + 3]);
-		// else if (line[i] && line[i] == 'E')
-		// 	data->ea = ft_strdup(&line[i + 3]);
-
 		else if (line[i] && line[i] == 'N' && line[i + 1] == 'O')
 			data->no = ft_strdup(&line[i + 3]);
 		else if (line[i] && line[i] == 'S' && line[i + 1] == 'O')
@@ -93,7 +96,7 @@ int	ft_ft(int fd, t_data *data)
 	p = 0;
 	i = 0;
 
-	while (line)
+	while (line && i < data->map_h)
 	{
 		data->map[i] = line;
 		j = -1;
@@ -111,13 +114,11 @@ int	ft_ft(int fd, t_data *data)
 		i++;
 		line = get_next_line(fd);
 	}
+	if (line)
+		free(line);
 	if (p != 1)
 		return (1);
-
-
-	data->map[i] = NULL; //// // /
-
-
+	data->map[i] = NULL;
 	return (0);
 }
 
@@ -127,16 +128,20 @@ int	set_map(char *file, t_data *data)
 {
 	int	fd1;
 	int	fd2;
+	// int fd3;
 
 	fd1 = open(file, O_RDONLY);
 	fd2 = open(file, O_RDONLY);	
+	// fd3 = open(file, O_RDONLY);	
 	if (fd1 < 0 || fd2 < 0)
 	{
 		printf("Error\ncan't open the map's file.\n");
 		return (1);
 	}
-	data->map_h = count_lines(fd1);
+	// data->map_h = count_lines(fd1);
+	data->map_h = count_map_lines(fd1);
 	data->map = (char **)malloc(sizeof(char *) * (data->map_h + 1));
+	// data->map = strdup_map(fd3, data->map_h);
 	if (ft_ft(fd2, data)) //
 		return (1);
 	data->map[data->map_h] = NULL;
@@ -177,37 +182,24 @@ int	parse(char *file, t_data *data)
 		return (1);
 	if (check_configs(data)) //
 		return (1);
-	// if (check_first_char(file))
-	// 	return (1);
+	if (check_first_char(file))
+		return (1);
 	
-	// printf("222222\n");
+	data->mini_map = get_new_map(file);
+	if (!data->mini_map)
+		return (printf("Error\nmini_map\n"), 1);
+
+
+    /** printing **/
+	printf("data->map 1\n");
 	print_map(data->map);
 	print_data(data); ///////
+
+	printf("data->mini_map 2\n");
+	print_map(data->mini_map);
 
 	return (0);
 }
 
-// int check_first_char(char *file)
-// {
-// 	int fd;
-// 	char *line;
-// 	// int i;
+//////////////////////////////////////////////
 
-// 	fd = open(file, O_RDONLY);
-// 	if (fd < 0)
-// 		return (printf("ERRR\n"), 1);
-// 	line = get_next_line(fd);
-// 	while (line)
-// 	{
-// 		if (!valid_first_char(line[0]))
-// 			return (printf("Error\n Wrong configs\n"), 1);
-// 		free (line);
-// 		line = get_next_line(fd);
-// 	}
-// 	return (0):
-// }
-
-// int valid_first_char(char c)
-// {
-// 	if (!invalid_mapchar(c) &&  )
-// }

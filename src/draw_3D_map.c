@@ -81,8 +81,8 @@ void	get_wall_dist(t_draw_map *d, t_data *data)
 			d->map_y += d->step_y;
 			d->side = 1;
 		}
-		if (data->map[d->map_y][d->map_x] == '1'
-			|| data->map[d->map_y][d->map_x] == 'D')
+		if (data->mini_map[d->map_y][d->map_x] == '1'
+			|| data->mini_map[d->map_y][d->map_x] == 'D')
 			break ;
 	}
 	if (d->side == 0)
@@ -122,7 +122,7 @@ void	draw_map(t_mlx *mlx, t_data *data)
 	{
 		init_ray_data(&d, data);
 		get_wall_dist(&d, data);
-		if (data->map[d.map_y][d.map_x] == 'D')
+		if (data->mini_map[d.map_y][d.map_x] == 'D')
 			draw_wall_slice(mlx, &d, &data->door, d.i);
 		else
 			draw_wall(mlx, data, &d);

@@ -81,6 +81,7 @@ int	init(t_mlx *mlx, t_data *data, char *argv, t_pl *player)
 		return (free_map(data), 1);
 
 
+	data->map_w = count_map_w(data);
 
 
 	mlx->mlx = mlx_init();

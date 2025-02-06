@@ -34,12 +34,12 @@ int	calculate_rays(t_mlx *mlx, t_data *data, t_draw_rays *d)
 
 	d->ray_x += d->step_x * 0.05;
 	d->ray_y += d->step_y * 0.05;
-	if (d->ray_x < 0 || d->ray_y < 0 || !data->map[(int)d->ray_y]
-		|| data->map[(int)d->ray_y][(int)d->ray_x] == '1')
+	if (d->ray_x < 0 || d->ray_y < 0 || !data->mini_map[(int)d->ray_y]
+		|| data->mini_map[(int)d->ray_y][(int)d->ray_x] == '1')
 		return (1);
-	if (data->map[(int)d->ray_y][(int)d->ray_x] == 'D')
+	if (data->mini_map[(int)d->ray_y][(int)d->ray_x] == 'D')
 		return (1);
-	if (data->map[(int)d->ray_y][(int)d->ray_x] == 'B')
+	if (data->mini_map[(int)d->ray_y][(int)d->ray_x] == 'B')
 		return (1);
 	new_x = (d->ray_x - data->player->x) * data->pixel_size;
 	new_y = (d->ray_y - data->player->y) * data->pixel_size;

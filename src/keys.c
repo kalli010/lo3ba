@@ -17,18 +17,18 @@ void	check_door(t_data *data)
 	t_pl	*pl;
 
 	pl = data->player;
-	if (data->map[(int)(pl->y + sin(pl->angle))][(int)(pl->x
+	if (data->mini_map[(int)(pl->y + sin(pl->angle))][(int)(pl->x
 			+ cos(pl->angle))] == 'D')
 	{
-		if (data->map[(int)pl->y][(int)pl->x] != 'D')
-			data->map[(int)(pl->y + sin(pl->angle))][(int)(pl->x
+		if (data->mini_map[(int)pl->y][(int)pl->x] != 'D')
+			data->mini_map[(int)(pl->y + sin(pl->angle))][(int)(pl->x
 					+ cos(pl->angle))] = 'B';
 	}
-	else if (data->map[(int)(pl->y + sin(pl->angle))][(int)(pl->x
+	else if (data->mini_map[(int)(pl->y + sin(pl->angle))][(int)(pl->x
 			+ cos(pl->angle))] == 'B')
 	{
-		if (data->map[(int)pl->y][(int)pl->x] != 'B')
-			data->map[(int)(pl->y + sin(pl->angle))][(int)(pl->x
+		if (data->mini_map[(int)pl->y][(int)pl->x] != 'B')
+			data->mini_map[(int)(pl->y + sin(pl->angle))][(int)(pl->x
 					+ cos(pl->angle))] = 'D';
 	}
 }
