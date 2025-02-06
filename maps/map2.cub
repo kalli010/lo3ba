@@ -1,10 +1,10 @@
 F 76,66,19
 C 99,99,99
 
-NO textures/wolfenstein/wood.xpm
-SO textures/wolfenstein/red_brick.xpm
-WE textures/wolfenstein/purple_stone.xpm
-EA textures/wolfenstein/color_stone.xpm
+WE textures/test/west.xpm
+NO textures/test/north
+SO textures/test/south.xpm
+EA textures/test/east.xpm
 
  1
 1N1

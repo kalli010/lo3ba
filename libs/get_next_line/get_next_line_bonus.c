@@ -33,8 +33,8 @@ void	clist(t_list **list)
 	k = 0;
 	while (last_node->content[i] && last_node->content[i] != '\n')
 		i++;
-	while (last_node->content[++i])
-		buf[k++] = last_node->content[i];
+	while (last_node->content[i])
+		buf[k++] = last_node->content[++i];
 	buf[k] = '\0';
 	clean_node->content = buf;
 	clean_node->next = NULL;
