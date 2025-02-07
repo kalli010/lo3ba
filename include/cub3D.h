@@ -6,25 +6,25 @@
 /*   By: zelkalai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:53:02 by zelkalai          #+#    #+#             */
-/*   Updated: 2025/01/26 11:55:06 by zelkalai         ###   ########.fr       */
+/*   Updated: 2025/02/07 22:50:35 by zelkalai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include <fcntl.h>
 # include <get_next_line_bonus.h>
 # include <libft.h>
 # include <math.h>
 # include <mlx.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <structs_helper.h>
 # include <sys/time.h>
 # include <time.h>
 # include <unistd.h>
-# include <stdbool.h>
-# include <fcntl.h>
 
 # define M_EMSG2 "Error\nThe map is not closed!\n"
 # define M_EMSG3 "Error\nToo many player Symbols on the map\n"
@@ -128,6 +128,7 @@ int					error_tf(char *msg, char **cvalue, char **fvalue);
 int					error_msg(char *msg, int status);
 
 /*load_texture.c*/
+void				init3(t_data *data);
 t_img				load_texture(t_mlx *mlx, char *path);
 void				get_texture(t_mlx *mlx, t_data *data);
 

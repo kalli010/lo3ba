@@ -57,6 +57,7 @@ void	clean_all(t_mlx *mlx)
 	mlx_destroy_display(mlx->mlx);
 	free_map(mlx->data);
 	free(mlx->mlx);
+	double_free(mlx->data->mini_map);
 }
 
 void	double_free(char **args)

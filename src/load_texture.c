@@ -6,11 +6,24 @@
 /*   By: zelkalai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:27:24 by zelkalai          #+#    #+#             */
-/*   Updated: 2025/01/31 19:34:54 by zelkalai         ###   ########.fr       */
+/*   Updated: 2025/02/07 22:49:18 by zelkalai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
+
+void	init3(t_data *data)
+{
+	data->spirit.animating = 0;
+	data->spirit.current_frame = 0;
+	data->spirit.last_frame = 0;
+	data->f = NULL;
+	data->c = NULL;
+	data->we = NULL;
+	data->ea = NULL;
+	data->so = NULL;
+	data->no = NULL;
+}
 
 t_img	load_texture(t_mlx *mlx, char *path)
 {

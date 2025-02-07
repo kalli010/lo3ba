@@ -6,7 +6,7 @@
 /*   By: zelkalai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 11:11:25 by zelkalai          #+#    #+#             */
-/*   Updated: 2025/01/26 11:51:19 by zelkalai         ###   ########.fr       */
+/*   Updated: 2025/02/07 22:55:08 by zelkalai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,26 +64,10 @@ int	init(t_mlx *mlx, t_data *data, char *argv, t_pl *player)
 	i = -1;
 	while (++i < 7)
 		data->key_pressed[i] = 0;
-	data->spirit.animating = 0;
-	data->spirit.current_frame = 0;
-	data->spirit.last_frame = 0;
-
-	///////////////////////
-	data->f = NULL;
-	data->c = NULL;
-	data->we = NULL;
-	data->ea = NULL;
-	data->so = NULL;
-	data->no = NULL;
-	///////////////////////
-
+	init3(data);
 	if (parse(argv, data))
 		return (free_map(data), 1);
-
-
 	data->map_w = count_map_w(data);
-
-
 	mlx->mlx = mlx_init();
 	if (!mlx->mlx)
 		return (clean_all(mlx), 1);
