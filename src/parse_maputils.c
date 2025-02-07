@@ -6,7 +6,7 @@
 /*   By: mel-atti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 02:51:59 by mel-atti          #+#    #+#             */
-/*   Updated: 2025/02/01 04:24:47 by mel-atti         ###   ########.fr       */
+/*   Updated: 2025/02/07 02:40:53 by mel-atti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ bool	map_closed(char **map, int ht)
 	{
 		if (onlysp_orempty(map[y]))
 			return (false);
-
 		x = -1;
 		while (++x < (int)ft_strlen(map[y]))
 		{
@@ -59,9 +58,7 @@ bool	map_closed(char **map, int ht)
 			{
 				len = (int)ft_strlen(map[y]) - 1;
 				if (x == 0 || x == len || y == 0 || y == ht - 1)
-				{
 					return (false);
-				}
 				if (!check_cell(x, y, map, ht))
 					return (false);
 			}

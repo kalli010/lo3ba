@@ -23,20 +23,17 @@
 # include <sys/time.h>
 # include <time.h>
 # include <unistd.h>
-#include <stdbool.h>
-#include <fcntl.h>
+# include <stdbool.h>
+# include <fcntl.h>
 
-
-// #define M_EMSG1 "Error\nDupping the map!\n"
-#define M_EMSG2 "Error\nThe map is not closed!\n"
-#define M_EMSG3 "Error\nToo many player Symbols on the map\n"
-#define M_EMSG4 "Error\nNo player on the map\n"
-#define M_EMSG5 "Error\nInvalid character on the map\n"
-#define M_EMSG6 "Error\nFloor RGB values out of range 0-255\n"
-#define M_EMSG7 "Error\nCeiling RGB values out of range 0-255\n"
-#define M_EMSG8 "Error\nThere's No Map\n"
-#define M_EMSG9 "Error\nWrong configs\n"
-
+# define M_EMSG2 "Error\nThe map is not closed!\n"
+# define M_EMSG3 "Error\nToo many player Symbols on the map\n"
+# define M_EMSG4 "Error\nNo player on the map\n"
+# define M_EMSG5 "Error\nInvalid character on the map\n"
+# define M_EMSG6 "Error\nFloor RGB values out of range 0-255\n"
+# define M_EMSG7 "Error\nCeiling RGB values out of range 0-255\n"
+# define M_EMSG8 "Error\nThere's No Map\n"
+# define M_EMSG9 "Error\nWrong configs\n"
 # define SCREEN_HEIGHT 480
 # define SCREEN_WIDTH 640
 # define MINIMAP_SCALE 0.3
@@ -47,7 +44,6 @@
 # define MOVE_SPEED 0.1
 # define ROTATION_SPEED 0.1
 # define PITCH_FACTOR 1
-
 # define MAX_RGB 16777215
 
 typedef struct s_pl
@@ -86,7 +82,6 @@ typedef struct s_data
 	char			**map;
 	int				map_w;
 	int				map_h;
-	///////
 	char			**mini_map;
 	int				f_value;
 	int				c_value;
@@ -125,22 +120,34 @@ int					init(t_mlx *mlx, t_data *data, char *argv, t_pl *player);
 /*free.c*/
 void				free_map(t_data *data);
 void				clean_all(t_mlx *mlx);
+void				double_free(char **args);
+int					free_error_fd(char *msg, char **map, int fd, int fd2);
+int					error_tf(char *msg, char **cvalue, char **fvalue);
+
+/*free_utils.c*/
+int					error_msg(char *msg, int status);
 
 /*load_texture.c*/
 t_img				load_texture(t_mlx *mlx, char *path);
 void				get_texture(t_mlx *mlx, t_data *data);
 
-/*parse_map.c*/
-int					count_lines(int fd);
-char				*get_parameters(int fd, t_data *data);
-int					check_player_position(t_data *data, int i, int j, int *p);
-int					ft_ft(int fd, t_data *data);
-int					set_map(char *file, t_data *data);
-int					check_file(char *file);
-
 /****************************************************/
 /////////////////*   PARSE MORE *////////////////////
 /****************************************************/
+
+/*parse_map.c*/
+int					ft_ft(int fd, t_data *data);
+char				*get_parameters(int fd, t_data *data);
+void				ft_ft_handle(t_data *data, int i, int j, int *p);
+int					check_player_position(t_data *data, int i, int j, int *p);
+void				get_texture_handle(char *line, int i, t_data *data);
+
+/*parsing.c*/
+int					parse(char *file, t_data *data);
+int					check_file(char *file);
+int					set_map(char *file, t_data *data);
+int					scape_spaces(char *line);
+char				*get_texture_data(char *line, int i);
 
 /*parse_maputils.c*/
 int					map_invalid(char *file);
@@ -160,58 +167,48 @@ bool				is_valid_cell(int x, int y, char **map, int map_height);
 bool				onlysp_orempty(char *mapl);
 bool				invalid_mapchar(char c);
 bool				is_player_char(char c);
-void				print_map(char **map); //// // /
-void				print_data(t_data *data);
 int					duplicate_configs(char *file);
 int					configs_found(char *line);
 
-
 /*parse_configs.c*/
+
 int					check_configs(t_data *data);
 int					check_fnc(t_data *data);
 int					check_texture(t_data *data);
 int					invalid_fc_line(char *str);
 int					check_rgb_num(t_data *data);
-int check_last_ch(t_data *data);
-
 
 /*parse_configs_utils.c*/
 bool				invalid_fc_char(char c);
 int					ft_check_bound(char **ptr);
 bool				iswhite_space(char c);
 bool				ft_isdigit_two(char c);
+int					valid_first_char(char c);
 
-/*free.c*/
-void				double_free(char **args);
-int					free_error_fd(char *msg, char **map, int fd, int fd2);
-int					error_tf(char *msg, char **cvalue, char **fvalue);
-int					error_msg(char *msg, int status);
+/*parse_configs_more.c*/
+int					check_first_char(char *file);
+int					valid_following_chars(char *line);
+int					invalid_nsew_line(char *line);
+int					nsew_check(char *line);
+int					invalid_sp01(char *line);
 
-/********/
-int rgb_to_int(int red, int green, int blue);
-int rgb_final_check(t_data *data, char **c, char **f);
-int set_rgb_values(t_data *data, char **c, char **f);
-int is_digit_str(char *str);
+/*rgb_checks.c*/
+int					rgb_to_int(int red, int green, int blue);
+int					rgb_final_check(t_data *data, char **c, char **f);
+int					set_rgb_values(t_data *data, char **c, char **f);
+int					is_digit_str(char *str);
+int					check_last_ch(t_data *data);
 
-/************** */
-char **get_new_map(char *file);
-char **fix_map(char **map, int longest_line, int lcount);
-char *fix_line(char **map, int i, int longest_line);
-int get_llenght(char **map);
-int check_first_char(char *file);
-int valid_first_char(char c);
+/*build_new_map.c*/
+char				**get_new_map(char *file);
+char				**fix_map(char **map, int longest_line, int lcount);
+char				*fix_line(char **map, int i, int longest_line);
+int					get_llenght(char **map);
 
-int valid_following_chars(char *line);
-int invalid_nsew_line(char *line);
-int nsew_check(char *line);
-int invalid_sp01(char *line);
-
-
-//////////////////////////////////////////
-                /*******/
-/////////////////////////////////////////
-
-int					parse(char *file, t_data *data);
+/*parse_extension.c*/
+int					check_extension(t_data *data);
+int					invalide_extension(char *str);
+int					trim_whitesp(t_data *data);
 
 /*mouse.c*/
 int					mouse_rotation(int x, int y, t_data *data);
@@ -240,7 +237,7 @@ void				change_x_y(t_mlx *mlx, t_key_mouvment *k);
 void				draw_circle(t_mlx *mlx);
 void				pixel_put(t_mlx *mlx, double map_x, double map_y,
 						int color);
-int	count_map_w(t_data *data);
+int					count_map_w(t_data *data);
 void				draw_minimap(t_mlx *mlx, t_data *data);
 void				draw_rays(t_mlx *mlx, t_data *data);
 

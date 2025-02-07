@@ -15,7 +15,7 @@ INC = -I./include -I$(libft_src) -I$(minilibx_src) -I$(gnl_src)
 CFLAGS = $(INC) -g -Wall -Wextra -Werror #-fsanitize=address -g3
 
 #creat source and object files
-CDIRS = src libs/get_next_line
+CDIRS = src libs/get_next_line libs/libft
 ODIRS = bin
 SRC = $(foreach dir, $(CDIRS), $(wildcard $(dir)/*.c))
 OBJ = $(patsubst %.c, $(ODIRS)/%.o, $(notdir $(SRC)))

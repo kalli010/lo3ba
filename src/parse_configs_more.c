@@ -6,16 +6,17 @@
 /*   By: mel-atti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 05:14:43 by mel-atti          #+#    #+#             */
-/*   Updated: 2025/02/06 05:14:48 by mel-atti         ###   ########.fr       */
+/*   Updated: 2025/02/07 02:34:46 by mel-atti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-int check_first_char(char *file)
+int	check_first_char(char *file)
 {
-	int fd;
-	char *line;
+	int		fd;
+	char	*line;
+	int		i;
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
@@ -23,12 +24,15 @@ int check_first_char(char *file)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (!valid_first_char(line[0]))
+		i = 0;
+		while (line[i] && iswhite_space(line[i]))
+			i++;
+		if (!valid_first_char(line[i]))
 		{
 			free (line);
 			return (error_msg(M_EMSG9, 1));
 		}
-		if (!valid_following_chars(line))
+		if (!valid_following_chars(&line[i]))
 		{
 			free (line);
 			return (error_msg(M_EMSG9, 1));
@@ -39,29 +43,29 @@ int check_first_char(char *file)
 	return (0);
 }
 
-int valid_following_chars(char *line)
+int	valid_following_chars(char *line)
 {
 	if (line[0] == 'F' || line[0] == 'C')
 	{
 		if (invalid_fc_line(&line[1]))
-				return (0);
+			return (0);
 	}
 	else if (line[0] == 'N' || line[0] == 'S'
 		|| line[0] == 'W' || line[0] == 'E'
-        || line[0] == 'D' || line[0] == 'B')
+		|| line[0] == 'D' || line[0] == 'B')
 	{
 		if (invalid_nsew_line(line))
-				return (0); 		
+			return (0);
 	}
 	else if (line[0] == '0' || line[0] == '1' || iswhite_space(line[0]))
 	{
 		if (invalid_sp01(line))
-				return (0); 		
+			return (0);
 	}
 	return (1);
 }
 
-int invalid_nsew_line(char *line)
+int	invalid_nsew_line(char *line)
 {
 	if (!line)
 		return (1);
@@ -71,7 +75,6 @@ int invalid_nsew_line(char *line)
 			return (0);
 		return (nsew_check(&line[1]));
 	}
-
 	else if (line[0] == 'W')
 	{
 		if (line[1] == 'E')
@@ -84,16 +87,14 @@ int invalid_nsew_line(char *line)
 			return (0);
 		return (nsew_check(&line[1]));
 	}
-    else if (line[0] == 'D' || line[0] == 'B')
-    {
-        return (nsew_check(&line[1]));
-    }
+	else if (line[0] == 'D' || line[0] == 'B')
+		return (nsew_check(&line[1]));
 	return (0);
 }
 
-int nsew_check(char *line)
+int	nsew_check(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
@@ -106,9 +107,9 @@ int nsew_check(char *line)
 	return (0);
 }
 
-int invalid_sp01(char *line)
+int	invalid_sp01(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i] && line[i] != '\n')

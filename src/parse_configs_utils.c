@@ -6,12 +6,11 @@
 /*   By: mel-atti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 02:51:31 by mel-atti          #+#    #+#             */
-/*   Updated: 2025/02/01 04:26:43 by mel-atti         ###   ########.fr       */
+/*   Updated: 2025/02/07 02:36:29 by mel-atti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
-
 
 bool	invalid_fc_char(char c)
 {
@@ -55,7 +54,7 @@ bool	ft_isdigit_two(char c)
 		return (0);
 }
 
-int valid_first_char(char c)
+int	valid_first_char(char c)
 {
 	if (c != 'F' && c != 'C' && c != 'N' && c != 'S'
 		&& c != 'W' && c != 'E' && c != 'D' && c != 'B'

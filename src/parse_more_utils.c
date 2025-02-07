@@ -6,13 +6,13 @@
 /*   By: mel-atti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 02:52:21 by mel-atti          #+#    #+#             */
-/*   Updated: 2025/02/01 04:25:43 by mel-atti         ###   ########.fr       */
+/*   Updated: 2025/02/07 02:44:29 by mel-atti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-int count_map_lines(int fd)
+int	count_map_lines(int fd)
 {
 	int		i;
 	int		j;
@@ -20,7 +20,6 @@ int count_map_lines(int fd)
 	int		ws_flag;
 
 	j = 0;
-	
 	line = get_first_line(fd);
 	while (line)
 	{
@@ -30,22 +29,18 @@ int count_map_lines(int fd)
 		{
 			ws_flag++;
 			i++;
-
 		}
 		if (ws_flag && line[i] == '\0')
 			j++;
 		if (line[i] == '1' || line[i] == '0')
-		{
 			j++;
-		}
-
 		free(line);
 		line = get_next_line(fd);
 	}
 	return (j);
 }
 
-char    **strdup_map(int fd, int lcount)
+char	**strdup_map(int fd, int lcount)
 {
 	int		i;
 	char	**new;
@@ -57,7 +52,6 @@ char    **strdup_map(int fd, int lcount)
 	line = get_first_line(fd);
 	if (!line)
 		return (printf("Error\nThere's no 1st map's line\n"), NULL);
-
 	new[0] = dup_mline(line);
 	i = 1;
 	while (i <= lcount)
@@ -86,7 +80,7 @@ char	*get_first_line(int fd)
 				return (line);
 			}
 			else if (invalid_mapchar(line[i]))
-				break;
+				break ;
 			i++;
 		}
 		free(line);
@@ -98,14 +92,12 @@ char	*get_first_line(int fd)
 char	*dup_mline(char *line)
 {
 	int		i;
-	int		len;
 	char	*new;
 
 	i = 0;
 	if (!line)
 		return (NULL);
-	len = ft_strlen(line) + 1;
-	new = malloc(sizeof(char) * len);
+	new = malloc(sizeof(char) * (ft_strlen(line) + 1));
 	if (!new)
 		return (NULL);
 	while (line[i])
@@ -137,4 +129,3 @@ bool	is_valid_cell(int x, int y, char **map, int map_height)
 	}
 	return (true);
 }
-
