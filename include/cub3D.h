@@ -36,6 +36,7 @@
 # define M_EMSG9 "Error\nWrong configs\n"
 # define SCREEN_HEIGHT 480
 # define SCREEN_WIDTH 640
+
 # define MINIMAP_SCALE 0.3
 # define NUM_RAYS SCREEN_WIDTH
 # define FOV 1.0471975512
@@ -210,6 +211,7 @@ int					get_llenght(char **map);
 int					check_extension(t_data *data);
 int					invalide_extension(char *str);
 int					trim_whitesp(t_data *data);
+int					open_tfiles_check(t_data *data);
 
 /*mouse.c*/
 int					mouse_rotation(int x, int y, t_data *data);

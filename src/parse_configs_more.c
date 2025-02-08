@@ -6,7 +6,7 @@
 /*   By: mel-atti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 05:14:43 by mel-atti          #+#    #+#             */
-/*   Updated: 2025/02/07 02:34:46 by mel-atti         ###   ########.fr       */
+/*   Updated: 2025/02/07 23:22:32 by mel-atti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,9 @@ int	check_first_char(char *file)
 		while (line[i] && iswhite_space(line[i]))
 			i++;
 		if (!valid_first_char(line[i]))
-		{
-			free (line);
-			return (error_msg(M_EMSG9, 1));
-		}
+			return (free(line), error_msg(M_EMSG9, 1));
 		if (!valid_following_chars(&line[i]))
-		{
-			free (line);
-			return (error_msg(M_EMSG9, 1));
-		}
+			return (free(line), error_msg(M_EMSG9, 1));
 		free (line);
 		line = get_next_line(fd);
 	}

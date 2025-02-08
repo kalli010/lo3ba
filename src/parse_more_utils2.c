@@ -6,7 +6,7 @@
 /*   By: mel-atti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:32:22 by mel-atti          #+#    #+#             */
-/*   Updated: 2025/02/07 02:48:35 by mel-atti         ###   ########.fr       */
+/*   Updated: 2025/02/07 23:26:46 by mel-atti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ bool	onlysp_orempty(char *mapl)
 		return (1);
 	return (0);
 }
-
 
 bool	invalid_mapchar(char c)
 {
@@ -78,10 +77,9 @@ int	duplicate_configs(char *file)
 
 int	configs_found(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
-
 	while (line[i] && iswhite_space(line[i]))
 		i++;
 	if (line[i] == 'F' || line[i] == 'C'
