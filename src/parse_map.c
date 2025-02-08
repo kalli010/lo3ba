@@ -37,12 +37,7 @@ int	ft_ft(int fd, t_data *data)
 		if (i >= data->map_h)
 			free(line);
 	}
-	if (line)
-		free(line);
-	if (p != 1)
-		return (1);
-	data->map[i] = NULL;
-	return (0);
+	return (last_ftft_check(data, line, p, i));
 }
 
 char	*get_parameters(int fd, t_data *data)

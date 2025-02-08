@@ -212,6 +212,7 @@ int					check_extension(t_data *data);
 int					invalide_extension(char *str);
 int					trim_whitesp(t_data *data);
 int					open_tfiles_check(t_data *data);
+int					last_ftft_check(t_data *data, char *line, int p, int i);
 
 /*mouse.c*/
 int					mouse_rotation(int x, int y, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: mel-atti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 04:18:18 by mel-atti          #+#    #+#             */
-/*   Updated: 2025/02/07 23:48:50 by mel-atti         ###   ########.fr       */
+/*   Updated: 2025/02/08 15:12:59 by mel-atti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,15 @@ int	open_tfiles_check(t_data *data)
 	i = -1;
 	while (++i < 4)
 		close(fd[i]);
+	return (0);
+}
+
+int	last_ftft_check(t_data *data, char *line, int p, int i)
+{
+	if (line)
+		free(line);
+	data->map[i] = NULL;
+	if (p != 1)
+		return (1);
 	return (0);
 }
