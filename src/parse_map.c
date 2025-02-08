@@ -22,16 +22,21 @@ int	ft_ft(int fd, t_data *data)
 	line = get_parameters(fd, data);
 	p = 0;
 	i = 0;
-	while (line && i < data->map_h)
+	while (line || i < data->map_h)
 	{
-		data->map[i] = line;
-		j = -1;
-		data->map_w = 0;
-		while (data->map[i][++j])
-			ft_ft_handle(data, i, j, &p);
-		i++;
+    if (i < data->map_h)
+    {
+      data->map[i] = line;
+      j = -1;
+      data->map_w = 0;
+      while (data->map[i][++j])
+        ft_ft_handle(data, i, j, &p);
+      i++;
+    }
 		line = get_next_line(fd);
-	}
+	  if (i >= data->map_h)
+      free(line);
+  }
 	if (line)
 		free(line);
 	if (p != 1)

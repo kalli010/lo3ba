@@ -53,12 +53,17 @@ char	**strdup_map(int fd, int lcount)
 	if (!line)
 		return (printf("Error\nThere's no 1st map's line\n"), NULL);
 	new[0] = dup_mline(line);
+	free(line);
 	i = 1;
-	while (i <= lcount)
+	while (line || i <= lcount)
 	{
-		line = get_next_line(fd);
-		new[i] = dup_mline(line);
-		i++;
+    line = get_next_line(fd);
+    if (i <= lcount)
+    {
+      new[i] = dup_mline(line);
+      i++;
+    }
+    free(line);
 	}
 	new[i] = NULL;
 	return (new);
@@ -113,7 +118,6 @@ char	*dup_mline(char *line)
 	}
 	if (line[i] == '\0')
 		new[i] = '\0';
-	free(line);
 	return (new);
 }
 
