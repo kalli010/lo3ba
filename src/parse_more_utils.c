@@ -57,13 +57,13 @@ char	**strdup_map(int fd, int lcount)
 	i = 1;
 	while (line || i <= lcount)
 	{
-    line = get_next_line(fd);
-    if (i <= lcount)
-    {
-      new[i] = dup_mline(line);
-      i++;
-    }
-    free(line);
+		line = get_next_line(fd);
+		if (i <= lcount)
+		{
+			new[i] = dup_mline(line);
+			i++;
+		}
+		free(line);
 	}
 	new[i] = NULL;
 	return (new);
